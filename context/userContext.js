@@ -30,26 +30,28 @@ const UserContextProvider = ({ children }) => {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
+
     const appointments = localStorage.getItem('appointments');
     const customers = localStorage.getItem('customers');
     const staff = localStorage.getItem('staff');
 
     let isToken, isAppointments, isCustomers, isStaff;
 
-    if (!token !== 'undefined') {
+    if (token) {
+      console.log('test token');
       isToken = JSON.parse(token);
       setToken(isToken);
     }
-    if (!staff !== 'undefined') {
+    if (staff) {
       isStaff = JSON.parse(staff);
       setStaff(isStaff);
     }
-    if (!customers) {
+    if (customers) {
       isCustomers = JSON.parse(customers);
       setCustomers(isCustomers);
     }
-    if (!appointments) {
-      console.log('test');
+    if (appointments) {
+      console.log('test', appointments);
       isAppointments = JSON.parse(appointments);
       let newData = isAppointments.map((appointment) => {
         let start = new Date(appointment.start);

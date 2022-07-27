@@ -49,6 +49,7 @@ const UserContextProvider = ({ children }) => {
       setCustomers(isCustomers);
     }
     if (appointments !== 'undefined') {
+      console.log('test');
       isAppointments = JSON.parse(appointments);
       let newData = isAppointments.map((appointment) => {
         let start = new Date(appointment.start);

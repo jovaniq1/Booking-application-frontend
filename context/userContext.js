@@ -33,7 +33,6 @@ const UserContextProvider = ({ children }) => {
     const appointments = localStorage.getItem('appointments');
     const customers = localStorage.getItem('customers');
     const staff = localStorage.getItem('staff');
-    console.log('staff', staff);
 
     let isToken, isAppointments, isCustomers, isStaff;
 

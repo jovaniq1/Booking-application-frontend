@@ -9,7 +9,6 @@ const Home = () => {
   //   setIsSignIn(!isSignIn);
   // };
 
-  console.log('test');
   return (
     <div>
       <header className="bg-white shadow">

@@ -1,0 +1,7 @@
+.card {
+  perspective: 500px;
+}
+.card:hover {
+  background-color: aquamarine;
+  transform: scale(1.15);
+}

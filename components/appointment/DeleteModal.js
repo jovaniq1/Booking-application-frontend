@@ -18,7 +18,7 @@ const DeleteModal = ({ isOpen, toggleModal }) => {
       }}
       open={isOpen}
     >
-      <Modal.Header>Use Google's location service?</Modal.Header>
+      <Modal.Header>Use Google&apos;s location service?</Modal.Header>
       <Modal.Content>
         Let Google help apps determine location. This means sending anonymous
         location data to Google, even when no apps are running.

@@ -29,7 +29,7 @@ const CalendarPage = () => {
       <Grid stackable columns={2}>
         <Grid.Column width={3}>
           <Segment>
-            <h4>Today's Appointments</h4>
+            <h4>Today&apos;s Appointments</h4>
           </Segment>
           {TodaysAppt.map((appt) => (
             <div key={appt._id}>

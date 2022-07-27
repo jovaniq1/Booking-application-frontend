@@ -2,13 +2,12 @@
   "name": "appointments",
   "version": "0.1.0",
   "private": true,
-  "engines": {
-    "node": "16.14.0"
-  },
+  "main": "index.js",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p $PORT",
+    "heroku-postbuild": "npm run build",
     "lint": "next lint"
   },
   "dependencies": {

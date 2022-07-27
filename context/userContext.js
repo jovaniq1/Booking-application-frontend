@@ -36,19 +36,19 @@ const UserContextProvider = ({ children }) => {
 
     let isToken, isAppointments, isCustomers, isStaff;
 
-    if (token !== 'undefined') {
+    if (!token !== 'undefined') {
       isToken = JSON.parse(token);
       setToken(isToken);
     }
-    if (staff !== 'undefined') {
+    if (!staff !== 'undefined') {
       isStaff = JSON.parse(staff);
       setStaff(isStaff);
     }
-    if (customers !== 'undefined') {
+    if (!customers) {
       isCustomers = JSON.parse(customers);
       setCustomers(isCustomers);
     }
-    if (appointments !== 'undefined') {
+    if (!appointments) {
       console.log('test');
       isAppointments = JSON.parse(appointments);
       let newData = isAppointments.map((appointment) => {

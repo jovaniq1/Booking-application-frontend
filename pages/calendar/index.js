@@ -31,15 +31,21 @@ const CalendarPage = () => {
           <Segment>
             <h4>Today&apos;s Appointments</h4>
           </Segment>
-          {TodaysAppt.map((appt) => (
-            <div key={appt._id}>
-              <li className="py-2">
-                <Label as="a">
-                  {appt.customer.firstname + ' at ' + formatTime(appt?.start)}
-                </Label>
-              </li>
-            </div>
-          ))}
+          {TodaysAppt.map((appt) => {
+            if (appt.status !== 'cancel') {
+              return (
+                <div key={appt._id}>
+                  <li className="py-2">
+                    <Label as="a">
+                      {appt.customer.firstname +
+                        ' at ' +
+                        formatTime(appt?.start)}
+                    </Label>
+                  </li>
+                </div>
+              );
+            }
+          })}
         </Grid.Column>
         <Grid.Column width={13}>
           <CalendarComponent />

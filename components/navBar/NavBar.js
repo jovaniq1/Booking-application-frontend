@@ -17,6 +17,11 @@ const notUser = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 };
+const loginNavigationCustomer = [
+  { name: 'Home', href: '/', current: false },
+  { name: 'Appointments', href: '/appointments', current: false },
+  { name: 'Calendar', href: '/calendar', current: false },
+];
 const loginNavigation = [
   { name: 'Home', href: '/', current: false },
   { name: 'Team', href: '/team', current: false },
@@ -45,14 +50,22 @@ function classNames(...classes) {
 const NavBar = () => {
   const [openTab, setOpenTab] = useState('');
   const userCtx = useContext(userContext);
-  const { isSignIn, setUserIsSignIn } = userCtx;
-  console.log('isSignIn', isSignIn);
+  const { isSignIn, setUserIsSignIn, user, setTokenData } = userCtx;
+  console.log('---user', user);
   const setActiveTab = (name) => {
     setOpenTab(name);
   };
   const signOut = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    localStorage.removeItem('appointments');
+    localStorage.removeItem('webId');
+    localStorage.removeItem('staff');
+    localStorage.removeItem('customers');
+    localStorage.removeItem('website');
+    localStorage.removeItem('services');
     setUserIsSignIn(false);
+    setTokenData('');
   };
 
   return (
@@ -74,25 +87,45 @@ const NavBar = () => {
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">
                       {isSignIn
-                        ? loginNavigation.map((item) => (
-                            <Link href={item.href} key={item.name}>
-                              <a
-                                onClick={() => setOpenTab(item.name)}
-                                href={item.href}
-                                className={classNames(
-                                  item.name === openTab
-                                    ? 'bg-gray-900 text-white'
-                                    : 'text-gray-300 hover:bg-gray-700 hover:text-white',
-                                  'px-3 py-2 rounded-md text-sm font-medium'
-                                )}
-                                aria-current={
-                                  item.name === openTab ? 'page' : undefined
-                                }
-                              >
-                                {item.name}
-                              </a>
-                            </Link>
-                          ))
+                        ? user.role === 'customer'
+                          ? loginNavigationCustomer.map((item) => (
+                              <Link href={item.href} key={item.name}>
+                                <a
+                                  onClick={() => setOpenTab(item.name)}
+                                  href={item.href}
+                                  className={classNames(
+                                    item.name === openTab
+                                      ? 'bg-gray-900 text-white'
+                                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                  )}
+                                  aria-current={
+                                    item.name === openTab ? 'page' : undefined
+                                  }
+                                >
+                                  {item.name}
+                                </a>
+                              </Link>
+                            ))
+                          : loginNavigation.map((item) => (
+                              <Link href={item.href} key={item.name}>
+                                <a
+                                  onClick={() => setOpenTab(item.name)}
+                                  href={item.href}
+                                  className={classNames(
+                                    item.name === openTab
+                                      ? 'bg-gray-900 text-white'
+                                      : 'text-gray-300 hover:bg-gray-700 hover:text-white',
+                                    'px-3 py-2 rounded-md text-sm font-medium'
+                                  )}
+                                  aria-current={
+                                    item.name === openTab ? 'page' : undefined
+                                  }
+                                >
+                                  {item.name}
+                                </a>
+                              </Link>
+                            ))
                         : notLoginNavigation.map((item) => (
                             <Link href={item.href} key={item.name}>
                               <a

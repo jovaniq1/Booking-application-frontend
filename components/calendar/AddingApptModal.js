@@ -6,18 +6,26 @@ import React, { useState, useContext, useEffect } from 'react';
 import { Label } from '@windmill/react-ui';
 import { userContext } from '../../context/userContext';
 import { Divider, Modal, Button, Form, Search, Icon } from 'semantic-ui-react';
-import { createAppointment, getAppointments } from '../fetching/PostsWithAxios';
+import {
+  createAppointment,
+  getAppointments,
+  updateAppointment,
+} from '../fetching/PostsWithAxios';
 import Staff from '../staff/Staff';
 import AddStaffModal from '../staff/AddStaffModal';
+import DropDownService from '../Global/Dropdown';
 
-const AddingApptModal = ({ isOpen, toggleModal, slotInfo }) => {
+const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchTerm, setSearchTerm] = useState([{ firstname: 'test' }]);
   const [isStaffSelected, setIsStaffSelected] = useState({});
+  const [isServiceSelected, setIsServiceSelected] = useState({});
   const [isAddModal, setIsAddModal] = useState(false);
+  // const [IsUpdate, setIsUpdate] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(userContext);
-  const { customers, setAppointmentsData, token } = userCtx;
+  const { customers, fetchAppointments, token, website, user } = userCtx;
+  console.log('data', data);
 
   useEffect(() => {
     var filterData = customers?.filter((item) =>
@@ -29,38 +37,9 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo }) => {
     setSearchResults(filterData.slice(0, 3));
   }, [searchTerm]);
 
-  const {
-    value: name,
-    isValid: enteredNameIsValid,
-    hasError: nameInputHasError,
-    valueChangeHandler: nameChangeHandler,
-    inputBlurHandler: nameBlurHandler,
-    reset: resetNameInput,
-  } = useInput('text');
-  const {
-    value: lastName,
-    valueChangeHandler: lastNameChangeHandler,
-    isValid: enteredLastNameIsValid,
-    hasError: lastNameInputHasError,
-    inputBlurHandler: lastNameBlurHandler,
-    reset: resetLastNameInput,
-  } = useInput('text');
-  const {
-    value: phone,
-    isValid: enteredPhoneIsValid,
-    hasError: phoneInputHasError,
-    valueChangeHandler: phoneChangeHandler,
-    inputBlurHandler: phoneBlurHandler,
-    reset: resetPhoneInput,
-  } = useInput('phone');
-  const {
-    value: email,
-    isValid: enteredEmailIsValid,
-    hasError: emailInputHasError,
-    valueChangeHandler: emailChangeHandler,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmailInput,
-  } = useInput('email');
+  // useEffect(() => {
+  //   setIsUpdate(data.isUpdate);
+  // }, []);
 
   const handleChange = (event) => {
     setIsLoading(true);
@@ -70,77 +49,60 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo }) => {
   };
 
   const handleSubmit = async () => {
-    const data = {
+    const info = {
       customer: searchTerm,
       staff: isStaffSelected,
+      service: isServiceSelected,
       status: 'pending',
     };
     if (searchTerm.firstname !== 'test' && isStaffSelected) {
       // creating new appt and saving it in db
 
+      let query =
+        data.isUpdate === 'true'
+          ? `mutation updateAppointment($appointmentId: ID!, $customer:ID!,$staff:ID!, $service:ID!, $status: String!,$start: String!,$end: String!,$website: ID!) {
+    updateAppointment(id: $appointmentId, AppointmentInput:{customer: $customer,staff: $staff, service: $service, status: $status,start: $start,end: $end,website: $website}) {
+      _id
+      
+   }
+}`
+          : `mutation createAppointment( $customer:ID!,$staff:ID!, $service:ID!, $status: String!,$start: String!,$end: String!,$website: ID!) {
+  createAppointment( AppointmentInput:{customer: $customer,staff: $staff, service: $service, status: $status,start: $start,end: $end,website: $website}) {
+  _id
+  }
+  }`;
+
+      let isToken = token;
+      if (!token) {
+        isToken = JSON.parse(localStorage.getItem('token'));
+      }
+
+      console.log('query', query);
       const queryAppt = {
-        token,
+        token: isToken,
         graphql: {
-          query: `mutation createAppointment( $customer:ID!,$staff:ID!,$status: String!,$start: String!,$end: String!) {
-            createAppointment( AppointmentInput:{customer: $customer,staff: $staff,status: $status,start: $start,end: $end}) {
-        _id
-     }
-  }`,
+          query: query,
           variables: {
-            customer: data.customer._id,
-            staff: data.staff._id,
-            status: data.status,
+            appointmentId: data?._id,
+            website: website._id,
+            customer: user.role === 'customer' ? user._id : info.customer._id,
+            staff: user.role === 'staff' ? user._id : info.staff._id,
+            service: info.service._id,
+            status: info.status,
             start: slotInfo.start.toString(),
             end: slotInfo.end.toString(),
           },
         },
       };
 
-      const newAppointment = await createAppointment(queryAppt);
+      if (data?.isUpdate == 'true') {
+        const isUpdated = await updateAppointment(queryAppt);
+      } else {
+        const newAppointment = await createAppointment(queryAppt);
+      }
 
       // fetch appointments
-      const page = 10;
-      const queryAppointments = {
-        token,
-        graphql: {
-          query: `query appointments($page: Int!) {
-            appointments(page: $page) {
-              appointments {
-                _id
-                status
-                start
-                end
-                completed
-                customer{
-                    firstname
-                    lastname
-                }
-                staff{
-                    firstname
-                    lastname
-                }
-              }
-              totalAppointments
-                  }
-          }`,
-          variables: {
-            page,
-          },
-        },
-      };
-
-      const appointmentsData = await getAppointments(queryAppointments);
-      if (appointmentsData) {
-        let appt = appointmentsData.data.appointments.appointments;
-
-        let newData = appt.map((appointment) => {
-          let start = new Date(appointment.start);
-          let end = new Date(appointment.end);
-          return { ...appointment, start, end };
-        });
-        setAppointmentsData(newData);
-        localStorage.setItem('appointments', JSON.stringify(newData));
-      }
+      await fetchAppointments();
 
       toggleModal(false);
     }
@@ -214,27 +176,38 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo }) => {
         </div>
       </Modal.Header>
       <Modal.Content>
-        <div className=" flex justify-center flex-row place-items-center gap-16">
-          <AddStaffModal
-            isOpen={isAddModal}
-            toggleModal={setIsAddModal}
-            user={'New Customer'}
-          />
-          <Label className="py-4">
-            <span>Find Customer</span>
-            <Search
-              fluid
-              loading={isLoading}
-              onSearchChange={handleChange}
-              results={searchResults}
-              value={searchTerm?.firstname}
-              resultRenderer={resultRenderer}
-              placeholder="Customer name"
+        <div className=" flex justify-center flex-row place-items-center gap-12">
+          <Label className="py-2">
+            <DropDownService setIsServiceSelected={setIsServiceSelected} />
+          </Label>
+
+          {user.role === 'staff' ? null : (
+            <AddStaffModal
+              isOpen={isAddModal}
+              toggleModal={setIsAddModal}
+              user={'New Customer'}
             />
-          </Label>
-          <Label className="py-1">
-            <Staff handleStaffSelected={handleStaffSelected} />
-          </Label>
+          )}
+          {user.role === 'customer' ? null : (
+            <Label className="py-2">
+              <span>Find Customer</span>
+              <Search
+                fluid
+                loading={isLoading}
+                onSearchChange={handleChange}
+                results={searchResults}
+                value={searchTerm?.firstname}
+                resultRenderer={resultRenderer}
+                placeholder="Customer name"
+              />
+            </Label>
+          )}
+
+          {user.role === 'staff' ? null : (
+            <Label className="py-1">
+              <Staff handleStaffSelected={handleStaffSelected} />
+            </Label>
+          )}
 
           <Divider hidden />
         </div>

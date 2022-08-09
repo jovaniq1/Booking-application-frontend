@@ -14,13 +14,14 @@ import {
   Avatar,
 } from '@windmill/react-ui';
 import AddStaffModal from '../../components/staff/AddStaffModal';
-
+import CreateServiceModal from '../../components/services/CreateServiceModal';
 const StaffPage = () => {
   const userCtx = useContext(userContext);
-  const { customers, staff } = userCtx;
+  const { customers, staff, services } = userCtx;
   const [isAddModalStaff, setIsAddModalStaff] = useState(false);
+  const [isAddModalService, setIsAddModalService] = useState(false);
   const [isAddModalCustomer, setIsAddModalCustomer] = useState(false);
-  console.log('-Staff', staff);
+
   return (
     <div className="grid grid-cols-6 gap-2 ">
       <div className="col-span-6 place-content-center my-12 px-8 mx-8">
@@ -116,6 +117,67 @@ const StaffPage = () => {
                   </TableCell>
                   <TableCell>
                     <Badge type="success">active</Badge>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div>
+      <div className=" col-span-6 place-content-center my-12 px-8 mx-8">
+        <CreateServiceModal
+          isOpen={isAddModalService}
+          toggleModal={setIsAddModalService}
+        />
+        <TableContainer>
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableCell>Name</TableCell>
+                <TableCell>Description</TableCell>
+                <TableCell>Duration</TableCell>
+                <TableCell>Cost</TableCell>
+                <TableCell>
+                  <div className="flex justify-end">
+                    <Button
+                      onClick={() => {
+                        setIsAddModalService(true);
+                        console.log('--- is click Modal');
+                      }}
+                      className=" text-white bg-blue-500 hover:bg-blue-500 "
+                    >
+                      New Service
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {services.map((service) => (
+                <TableRow key={service._id} info={service}>
+                  <TableCell>
+                    <div className="flex items-center text-sm">
+                      {/* <Avatar src="/img/avatar-1.jpg" alt="Judith" /> */}
+                      <span className="font-semibold ml-2">
+                        {service.serviceName}
+                      </span>
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">{service.description}</span>
+                  </TableCell>
+                  <TableCell>
+                    <span className="text-sm">
+                      {service.duration}
+                      {' Minutes'}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Badge type="success">
+                      {'$'}
+                      {service.cost}
+                      {' USD'}
+                    </Badge>
                   </TableCell>
                 </TableRow>
               ))}

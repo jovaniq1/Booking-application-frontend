@@ -11,7 +11,11 @@ const Loading = () => {
   }, 1000);
 
   return (
-    <div className="flex justify-center py-96">
+    <div
+      className="flex justify-center py-96"
+      aria-label="Loading"
+      role="loading"
+    >
       <Divider hidden />
       {colorsGrades.map((grade) => (
         <Transition

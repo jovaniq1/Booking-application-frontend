@@ -12,7 +12,7 @@ import {
   getCustomers,
 } from '../fetching/PostsWithAxios';
 import { NotFound } from '../errors/errors';
-
+//website
 const LoginForm = ({ isSignUpClick }) => {
   const router = useRouter();
   const [errors, setErrors] = useState([]);
@@ -24,9 +24,10 @@ const LoginForm = ({ isSignUpClick }) => {
   const userCtx = useContext(userContext);
   const {
     setUserIsSignIn,
-    setAppointmentsData,
-    setCustomerData,
-    setStaffData,
+    setUserData,
+    website,
+    fetchAppointments,
+    forceUpdate,
   } = userCtx;
 
   const handleSubmit = async (e) => {
@@ -40,7 +41,17 @@ const LoginForm = ({ isSignUpClick }) => {
       query: `
    {login(username:"${data?.email}", password:"${data?.password}") {
           token
-          userId
+          webId
+          userInfo{
+            _id
+            username
+            role
+            email
+            firstname
+            lastname
+            phone
+            date
+        }
         }
       }
       `,
@@ -48,97 +59,19 @@ const LoginForm = ({ isSignUpClick }) => {
     setIsLoading(true);
 
     const signInData = await signInUser(graphqlQuery);
-
-    console.log('login', signInData);
-    if (signInData.errors) {
+    if (signInData?.errors) {
       setErrors(signInData?.errors);
     }
+    const user = signInData?.data?.login?.userInfo;
     const token = signInData?.data?.login?.token;
     if (token) {
       setUserIsSignIn(true);
       localStorage.setItem('token', JSON.stringify(token));
-      setIsLoading(false);
+      localStorage.setItem('user', JSON.stringify(user));
+      setUserData(user);
+      await fetchAppointments();
       router.push('/');
-      let page = 10;
-      const queryCustomers = {
-        graphqlQuery: {
-          query: `
-          query {
-            getCustomers{
-        
-              totalCustomers
-                customers{
-                    _id
-                    firstname
-                    lastname
-                }
-                staff{
-                    _id
-                    firstname
-                    lastname
-                }
-                totalStaff
-           }
-          }
-          `,
-        },
-        token,
-      };
-      const customersData = await getCustomers(queryCustomers);
-      if (customersData) {
-        setCustomerData(customersData.data.getCustomers.customers);
-        setStaffData(customersData.data.getCustomers.staff);
-        localStorage.setItem(
-          'customers',
-          JSON.stringify(customersData.data.getCustomers.customers)
-        );
-        localStorage.setItem(
-          'staff',
-          JSON.stringify(customersData.data.getCustomers.staff)
-        );
-      }
-      // fetch appointments
-      const queryAppt = {
-        token,
-        graphql: {
-          query: `query appointments($page: Int!) {
-          appointments(page: $page) {
-            appointments {
-              _id
-              status
-              start
-              end
-              completed
-              customer{
-                  firstname
-                  lastname
-              }
-              staff{
-                  firstname
-                  lastname
-              }
-            }
-            totalAppointments
-                }
-        }`,
-          variables: {
-            page,
-          },
-        },
-      };
-
-      const appointmentsData = await getAppointments(queryAppt);
-      if (appointmentsData) {
-        let appt = appointmentsData.data.appointments.appointments;
-
-        let newData = appt.map((appointment) => {
-          let start = new Date(appointment.start);
-          let end = new Date(appointment.end);
-          return { ...appointment, start, end };
-        });
-        setAppointmentsData(newData);
-        localStorage.setItem('appointments', JSON.stringify(newData));
-      }
+      setIsLoading(false);
     }
   };
 
@@ -146,14 +79,13 @@ const LoginForm = ({ isSignUpClick }) => {
     if (isShowingSplashAnimation) {
       const splashTimer = setTimeout(
         () => setIsShowingSplashAnimation(false),
-        3000 // time of rendering
+        500 // time of rendering
       );
       return () => {
         clearTimeout(splashTimer);
       };
     }
   }, [isLoading]);
-  console.log(isShowingSplashAnimation, isLoading);
 
   return (
     <div>

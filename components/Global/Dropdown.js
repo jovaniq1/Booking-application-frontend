@@ -7,29 +7,28 @@ function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
-const Staff = ({ handleStaffSelected }) => {
+const DropDownService = ({ setIsServiceSelected }) => {
   const userCtx = useContext(userContext);
-  const { staff } = userCtx;
+  const { services } = userCtx;
 
   const people = [
     {
       _id: 1,
-      firstname: 'select a staff',
+      serviceName: 'select a service',
     },
   ];
 
   const [selected, setSelected] = useState(people[0]);
   if (selected._id !== 1) {
-    handleStaffSelected(selected);
+    setIsServiceSelected(selected);
   }
-  console.log('selected', selected);
 
   return (
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
           <Listbox.Label className="block text-sm font-medium text-gray-700">
-            Assigned to
+            Select Service
           </Listbox.Label>
           <div className="mt-1 relative">
             <Listbox.Button className="relative w-fit bg-white border border-gray-300 rounded-md shadow-sm pl-3 pr-10 py-2 text-left cursor-default focus:outline-none focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
@@ -40,7 +39,7 @@ const Staff = ({ handleStaffSelected }) => {
                   className="flex-shrink-0 h-6 w-6 rounded-full"
                 />
                 <span className="ml-3 block truncate">
-                  {selected.firstname}
+                  {selected.serviceName}
                 </span>
               </span>
               <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
@@ -60,16 +59,16 @@ const Staff = ({ handleStaffSelected }) => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 w-fit bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                {staff.map((person) => (
+                {services.map((service) => (
                   <Listbox.Option
-                    key={person._id}
+                    key={service._id}
                     className={({ active }) =>
                       classNames(
                         active ? 'text-white bg-indigo-600' : 'text-gray-900',
                         'cursor-default select-none relative py-2 pl-3 pr-9'
                       )
                     }
-                    value={person}
+                    value={service}
                   >
                     {({ selected, active }) => (
                       <>
@@ -86,7 +85,7 @@ const Staff = ({ handleStaffSelected }) => {
                               'ml-3 block truncate'
                             )}
                           >
-                            {person.firstname} {person.lastname}
+                            {service.serviceName}
                           </span>
                         </div>
 
@@ -117,4 +116,4 @@ const Staff = ({ handleStaffSelected }) => {
   );
 };
 
-export default Staff;
+export default DropDownService;

@@ -16,9 +16,6 @@ const SignUpPage = () => {
     setSignUp(!signUp);
   };
 
-  // console.log('subDomain', subDomain);
-  // console.log('issignUp', signUp);
-
   return (
     <div>
       <SignUpForm

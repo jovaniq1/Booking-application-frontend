@@ -1,33 +1,13 @@
 import 'fomantic-ui-css/semantic.css';
-import { useState, useContext } from 'react';
-import { Modal, Image } from 'semantic-ui-react';
-import { Label, Button } from '@windmill/react-ui';
-import { userContext } from '../../context/userContext';
+import React, { useState, useContext, useEffect } from 'react';
+import { Button } from '@windmill/react-ui';
+import { Modal } from 'semantic-ui-react';
 
-const ConfirmationModal = ({
-  isOpen,
-  toggleModal,
+import CreateService from './CreateService';
 
-  setErrors,
-  isSelected,
-}) => {
-  const userCtx = useContext(userContext);
-  const { appointments, toggleCancel } = userCtx;
-
-  const updateAppointment = async () => {
-    toggleCancel.bind(null, isSelected._id);
-    const updated = await toggleCancel(isSelected._id);
-    console.log('=========== updated', updated);
-    if (updated?.errors) {
-      setErrors(updated?.errors);
-    }
-    toggleModal(false);
-  };
-  console.log('isselected ', isSelected);
-
+const CreateServiceModal = ({ isOpen, toggleModal }) => {
   return (
     <Modal
-      size="small"
       onClose={() => {
         if (isOpen) {
           toggleModal(false);
@@ -35,9 +15,12 @@ const ConfirmationModal = ({
       }}
       open={isOpen}
     >
-      <Modal.Header className="text-center">Confirmation</Modal.Header>
+      <Modal.Header className="text-center">Add New Service</Modal.Header>
       <Modal.Content>
-        <div className="flex justify-center gap-24 ">
+        <CreateService />
+      </Modal.Content>
+      <Modal.Actions>
+        <div className="gap-12 px-4 space-x-4">
           <Button
             onClick={() => {
               if (isOpen) {
@@ -49,14 +32,18 @@ const ConfirmationModal = ({
             Cancel
           </Button>
           <Button
-            onClick={updateAppointment}
+            onClick={() => {
+              if (isOpen) {
+                toggleModal(false);
+              }
+            }}
             className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Submit
           </Button>
         </div>
-      </Modal.Content>
+      </Modal.Actions>
     </Modal>
   );
 };
-export default ConfirmationModal;
+export default CreateServiceModal;

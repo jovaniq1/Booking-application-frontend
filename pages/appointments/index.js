@@ -36,7 +36,7 @@ const BookingsPage = () => {
   useEffect(() => {
     let filterData = appointments?.filter((appt) => appt.status === filter);
     setFilterAppointments(filterData);
-  }, [appointments, filterAppointments, filter]);
+  }, [appointments, filter]);
 
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
@@ -77,6 +77,12 @@ const BookingsPage = () => {
             Canceled
           </button>
         </div>
+        <ConfirmationModal
+          isOpen={isAddModal}
+          isSelected={isSelected}
+          toggleModal={setIsAddModal}
+          setErrors={setErrors}
+        />
         <TableContainer>
           <Table>
             <TableHeader>
@@ -213,12 +219,6 @@ const BookingsPage = () => {
             label="Table navigation"
           />
         </TableFooter>
-        <ConfirmationModal
-          isOpen={isAddModal}
-          isSelected={isSelected}
-          toggleModal={setIsAddModal}
-          setErrors={setErrors}
-        />
       </div>
     </div>
   );

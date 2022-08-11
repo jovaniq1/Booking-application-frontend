@@ -117,6 +117,7 @@ const UserContextProvider = ({ children }) => {
 
     const { host } = window.location;
     let isDomain = host.split('.')[0];
+    console.log('-----------', isDomain, '-------------');
     if (isDomain) {
       if (!isDomain.includes(':')) {
         setGetWebsiteData(isDomain);

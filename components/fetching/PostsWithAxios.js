@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React, { useContext } from 'react';
 import { userContext } from '../../context/userContext';
-// const API_URL = 'https://personalweb-api.herokuapp.com/graphql';
-const API_URL = 'http://localhost:8080/graphql';
+const API_URL = 'https://personalweb-api.herokuapp.com/graphql';
+// const API_URL = 'http://localhost:8080/graphql';
 
 const constOptions = {
   method: 'POST',

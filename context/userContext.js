@@ -25,6 +25,7 @@ export const userContext = createContext({
   toggleCancel: (_id) => {},
   toggleApprove: (_id) => {},
   fetchAppointments: async () => {},
+  setGetWebsiteData: async (data) => {},
   forceUpdate: () => {},
   setTokenData: (data) => {},
   setUserData: (data) => {},
@@ -56,74 +57,9 @@ const UserContextProvider = ({ children }) => {
     // const services = localStorage.getItem('services');
     let isToken, isAppointments, isCustomers, isStaff, isUser;
     //  API'S
-    const setGetWebsiteData = async (name) => {
-      const query = {
-        graphql: {
-          query: `query getWebsite($name: String!) {
-            getWebsite(domain: $name) {
-            
-              website{
-                _id
-                name
-                domain
-                dateCreated
-            }
-            customers{
-              _id
-                firstname
-                lastname
-            }
-            staff{
-                _id
-                firstname
-                lastname
-            }
-            services{
-              _id
-               duration
-              cost
-              serviceName
-              description
-          }
-           }
-        }`,
-          variables: {
-            name,
-          },
-        },
-      };
-      const webData = await getWebsite(query);
-      setStaff(webData?.data?.getWebsite?.staff);
-      setWebsite(webData?.data?.getWebsite?.website);
-      setCustomers(webData?.data?.getWebsite?.customers);
-      setServices(webData?.data?.getWebsite?.services);
-      localStorage.setItem(
-        'services',
-        JSON.stringify(webData?.data?.getWebsite?.services)
-      );
-      localStorage.setItem(
-        'customers',
-        JSON.stringify(webData?.data?.getWebsite?.customers)
-      );
-      localStorage.setItem(
-        'website',
-        JSON.stringify(webData?.data?.getWebsite?.website)
-      );
-      localStorage.setItem(
-        'staff',
-        JSON.stringify(webData?.data?.getWebsite?.staff)
-      );
-    };
-
-    const { host } = window.location;
-    let isDomain = host.split('.')[0];
-    console.log('-----------', isDomain, '-------------');
-    if (isDomain) {
-      if (!isDomain.includes(':')) {
-        setGetWebsiteData(isDomain);
-        setDomain(isDomain);
-      }
-    }
+    console.log('--------get website');
+    setGetWebsiteData('');
+    console.log('--------get website');
 
     if (token) {
       isToken = JSON.parse(token);
@@ -156,6 +92,79 @@ const UserContextProvider = ({ children }) => {
   const setUserIsSignIn = (data) => {
     setIsSignIn(data);
   };
+
+  //getWebsite
+
+  const setGetWebsiteData = async (data) => {
+    let isToken = token;
+    if (!token) {
+      isToken = JSON.parse(localStorage.getItem('token'));
+    }
+    if (!data) {
+      data = '';
+    }
+
+    const query = {
+      token: isToken,
+      graphql: {
+        query: `query getWebsite($name: String) {
+          getWebsite(domain: $name) {
+          
+            website{
+              _id
+              name
+              domain
+              dateCreated
+          }
+          customers{
+            _id
+              firstname
+              lastname
+          }
+          staff{
+              _id
+              firstname
+              lastname
+          }
+          services{
+            _id
+             duration
+            cost
+            serviceName
+            description
+        }
+         }
+      }`,
+        variables: {
+          name: 'data',
+        },
+      },
+    };
+    console.log('query', query);
+    const webData = await getWebsite(query);
+    console.log('webData', webData);
+    localStorage.setItem(
+      'services',
+      JSON.stringify(webData?.data?.getWebsite?.services)
+    );
+    localStorage.setItem(
+      'customers',
+      JSON.stringify(webData?.data?.getWebsite?.customers)
+    );
+    localStorage.setItem(
+      'website',
+      JSON.stringify(webData?.data?.getWebsite?.website)
+    );
+    localStorage.setItem(
+      'staff',
+      JSON.stringify(webData?.data?.getWebsite?.staff)
+    );
+    setStaff(webData?.data?.getWebsite?.staff);
+    setWebsite(webData?.data?.getWebsite?.website);
+    setCustomers(webData?.data?.getWebsite?.customers);
+    setServices(webData?.data?.getWebsite?.services);
+  };
+
   //fetch appointments
   const fetchAppointments = useCallback(async () => {
     let page = 10;
@@ -166,8 +175,8 @@ const UserContextProvider = ({ children }) => {
     const queryAppointments = {
       token: isToken,
       graphql: {
-        query: `query appointments($page: Int!, $websiteId: ID!) {
-            appointments(page: $page, websiteId:$websiteId) {
+        query: `query appointments($page: Int!) {
+            appointments(page: $page) {
               appointments {
                 _id
                 status
@@ -194,7 +203,6 @@ const UserContextProvider = ({ children }) => {
           }`,
         variables: {
           page,
-          websiteId: website._id,
         },
       },
     };
@@ -362,6 +370,7 @@ const UserContextProvider = ({ children }) => {
       setTokenData,
       setUserData,
       forceUpdate,
+      setGetWebsiteData,
       website,
       appointments,
       customers,

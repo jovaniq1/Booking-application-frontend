@@ -69,7 +69,7 @@ const LoginForm = ({ isSignUpClick }) => {
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('user', JSON.stringify(user));
       setUserData(user);
-      await fetchAppointments();
+
       router.push('/');
       setIsLoading(false);
     }

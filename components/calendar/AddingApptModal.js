@@ -55,6 +55,7 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
       service: isServiceSelected,
       status: 'pending',
     };
+    console.log('---info', info);
     if (searchTerm.firstname !== 'test' && isStaffSelected) {
       // creating new appt and saving it in db
 

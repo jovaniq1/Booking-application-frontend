@@ -4,13 +4,7 @@ import { Modal, Image } from 'semantic-ui-react';
 import { Label, Button } from '@windmill/react-ui';
 import { userContext } from '../../context/userContext';
 
-const ConfirmationModal = ({
-  isOpen,
-  toggleModal,
-
-  setErrors,
-  isSelected,
-}) => {
+const ConfirmationModal = ({ isOpen, toggleModal, setErrors, isSelected }) => {
   const userCtx = useContext(userContext);
   const { appointments, toggleCancel } = userCtx;
 

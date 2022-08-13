@@ -198,7 +198,7 @@ const Home = () => {
   };
   const NoWebInfo = () => {
     return (
-      <div>
+      <div className="flex flex-col items-center justify-center min-h-screen p-10 text-gray-700 bg-gray-100 md:p-20">
         <header classNameName="bg-white shadow">
           {' '}
           <div classNameName="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">

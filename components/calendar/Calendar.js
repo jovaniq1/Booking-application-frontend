@@ -16,13 +16,8 @@ const CalendarComponent = () => {
   const userCtx = useContext(userContext);
   const { setAppointmentsData, appointments } = userCtx;
   const router = useRouter();
-  const isUpdate = router?.query?.isUpdate ? router?.query?.isUpdate : false;
+  // const isUpdate = router?.query?.isUpdate =="true" ? router?.query?.isUpdate : "false";
   const data = router.query;
-
-  // useEffect(() => {
-  //   console.log('router?.query?.isUpdate ', router?.query?.isUpdate);
-  //   alert(router?.query); // Alerts 'Someone'
-  // }, [router?.query]);
 
   const handleSelectSlot = useCallback(
     async (slotInfo) => {

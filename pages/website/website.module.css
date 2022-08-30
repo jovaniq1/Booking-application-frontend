@@ -1,0 +1,30 @@
+.content_bg {
+  padding-top: 180px;
+}
+.staff_container {
+  box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+}
+.staff_bg {
+  background: rgba(0, 0, 0, 0.5);
+}
+.calendar {
+  text-indent: 2px;
+  justify-content: end;
+  border-bottom: none;
+}
+.calendar_item {
+  border-radius: 100%;
+  background: white;
+  text-align: center;
+  justify-content: space-between;
+  display: block;
+  font-weight: bold;
+  color: rgb(51, 100, 100);
+  font-size: 15px;
+}
+.calendar_item:before {
+  border: 20px solid red;
+}
+.calendar_item:hover {
+  border-radius: 100%;
+}

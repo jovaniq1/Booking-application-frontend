@@ -12,6 +12,7 @@ import {
   getCustomers,
 } from '../fetching/PostsWithAxios';
 import { NotFound } from '../errors/errors';
+import { BlueButton } from '../Global/button/Button';
 //website
 const LoginForm = ({ isSignUpClick }) => {
   const router = useRouter();
@@ -25,7 +26,7 @@ const LoginForm = ({ isSignUpClick }) => {
   const {
     setUserIsSignIn,
     setUserData,
-    website,
+    setGetWebsiteData,
     fetchAppointments,
     forceUpdate,
   } = userCtx;
@@ -69,8 +70,8 @@ const LoginForm = ({ isSignUpClick }) => {
       localStorage.setItem('token', JSON.stringify(token));
       localStorage.setItem('user', JSON.stringify(user));
       setUserData(user);
-
-      router.push('/');
+      setGetWebsiteData('');
+      router.push('/appointments');
       setIsLoading(false);
     }
   };
@@ -92,28 +93,28 @@ const LoginForm = ({ isSignUpClick }) => {
       {isShowingSplashAnimation || isLoading ? (
         <Loading />
       ) : (
-        <div className="min-h-full flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-full flex items-center justify-center px-4 sm:px-6 lg:px-8 py-24">
           <div className="max-w-md w-full space-y-8">
             <div>
               <div className="flex justify-center ">
                 <Icon
                   size="huge"
-                  className="text-indigo-500 group-hover:text-indigo-400"
+                  className="text-cyan-900  group-hover:text-cyan-900"
                   aria-hidden="true"
                   name="book"
                 />
               </div>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-indigo-500">
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-cyan-800">
                 Booking
               </h2>
-              <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+              <h2 className="mt-6 text-center text-3xl font-extrabold text-cyan-800">
                 Sign in to your account
               </h2>
               <p className="mt-2 text-center text-sm text-gray-600">
                 Or
                 <a
                   href="#test"
-                  className="font-medium text-indigo-600 hover:text-indigo-500"
+                  className="font-medium text-cyan-900 hover:text-cyan-900"
                 >
                   {' '}
                   start your 14-day free trial
@@ -181,7 +182,7 @@ const LoginForm = ({ isSignUpClick }) => {
                 <div className="text-sm">
                   <a
                     href="#test"
-                    className="font-medium text-indigo-600 hover:text-indigo-500"
+                    className="font-medium text-cyan-900 hover:text-cyan-900"
                   >
                     Forgot your password?
                   </a>
@@ -189,34 +190,15 @@ const LoginForm = ({ isSignUpClick }) => {
               </div>
 
               <div className="grid gap-1 content-between">
-                <button
-                  type="submit"
-                  className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                >
-                  <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                    <Icon
-                      className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                      aria-hidden="true"
-                      name="lock"
-                    />
-                  </span>
-                  Sign in
-                </button>
+                <BlueButton type="submit" title="Sign in" />
+
                 <Link href="/signup">
-                  <button
+                  <BlueButton
                     type="button"
                     className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                     onClick={isSignUpClick}
-                  >
-                    <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                      <Icon
-                        className="h-5 w-5 text-indigo-500 group-hover:text-indigo-400"
-                        aria-hidden="true"
-                        name="user"
-                      />
-                    </span>
-                    Create Account
-                  </button>
+                    title="Create Account"
+                  />
                 </Link>
               </div>
             </form>

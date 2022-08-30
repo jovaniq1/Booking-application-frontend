@@ -5,6 +5,7 @@ import {
   useEffect,
   useCallback,
 } from 'react';
+import { useRouter } from 'next/router';
 import {
   updateAppointment,
   getWebsite,
@@ -45,34 +46,30 @@ const UserContextProvider = ({ children }) => {
   const [token, setToken] = useState('');
   const [user, setUser] = useState({});
   const [, updateState] = useState();
-
+  const router = useRouter();
   // fetch website info
 
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    const appointments = localStorage.getItem('appointments');
-    const user = localStorage.getItem('user');
+    const localToken = localStorage.getItem('token');
+    const localAppointments = localStorage.getItem('appointments');
+    const localUser = localStorage.getItem('user');
     // const customers = localStorage.getItem('customers');
     // const staff = localStorage.getItem('staff');
     // const services = localStorage.getItem('services');
     let isToken, isAppointments, isCustomers, isStaff, isUser;
     //  API'S
-    console.log('--------get website');
-    setGetWebsiteData('');
-    console.log('--------get website');
 
-    if (token) {
-      isToken = JSON.parse(token);
+    if (localToken) {
+      isToken = JSON.parse(localToken);
       setToken(isToken);
-    }
-    if (user) {
-      isUser = JSON.parse(user);
+    } else router.push('/login');
+    if (localUser) {
+      isUser = JSON.parse(localUser);
       setUser(isUser);
     }
 
-    if (appointments) {
-      console.log('test', appointments);
-      isAppointments = JSON.parse(appointments);
+    if (localAppointments) {
+      isAppointments = JSON.parse(localAppointments);
       let newData = isAppointments.map((appointment) => {
         let start = new Date(appointment.start);
         let end = new Date(appointment.end);
@@ -120,11 +117,16 @@ const UserContextProvider = ({ children }) => {
             _id
               firstname
               lastname
+              email
+              phone
           }
           staff{
               _id
               firstname
               lastname
+              email
+              phone
+
           }
           services{
             _id

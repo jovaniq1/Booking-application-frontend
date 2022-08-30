@@ -12,16 +12,21 @@ import {
   TableRow,
   TableCell,
   Avatar,
-  Button,
   TableFooter,
   Pagination,
 } from '@windmill/react-ui';
-import { Icon, Loader } from 'semantic-ui-react';
+import { Icon, Loader, Label } from 'semantic-ui-react';
 import ConfirmationModal from '../../components/appointment/ConfirmationModal';
 import Link from 'next/link';
 import AppointmentLayout from '../../components/appointment/ApptListLayout';
 import { NotFound, EncounterError } from '../../components/errors/errors';
 import Loading from '../../components/loading/Loading';
+import {
+  BlueButton,
+  WhiteButton,
+  RedButton,
+  GreenButton,
+} from '../../components/Global/button/Button';
 const BookingsPage = () => {
   const [isAddModal, setIsAddModal] = useState(false);
   const [errors, setErrors] = useState([]);
@@ -60,14 +65,126 @@ const BookingsPage = () => {
   const classNames = (...classes) => {
     return classes.filter(Boolean).join(' ');
   };
+  const AppointmentsTable = () => {
+    return (
+      <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead className=" bg-blue-700 text-xs text-slate-200 uppercase  dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" className="py-3 px-6">
+              #
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Client
+            </th>
+
+            <th scope="col" className="py-3 px-6">
+              Status
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Date
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Time
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Staff
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Service
+            </th>
+            <th scope="col" className="py-3 px-6">
+              Cost
+            </th>
+            <th scope="col" className="py-3 px-6">
+              <div className=" focus:outline-none space-x-4  text-sm px-5 py-2.5 text-center mr-2 mb-2pointer-events-auto  flex divide-x float-right rounded-md bg-blue-800  font-medium leading-5 text-slate-200 shadow-sm ring-1 ring-slate-700/10">
+                {pendingCount.length > 0 && (
+                  <Label color="red" circular>
+                    {pendingCount.length}
+                  </Label>
+                )}
+                <WhiteButton
+                  onClick={() => setFilter('pending')}
+                  title={'Pending'}
+                />
+                <WhiteButton
+                  onClick={() => setFilter('approve')}
+                  title={'Approve'}
+                />
+                <WhiteButton
+                  onClick={() => setFilter('cancel')}
+                  title={'Canceled'}
+                />
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {filterAppointments.map((appointment, index) => (
+            <tr
+              key={appointment._id}
+              className={
+                appointment.status === 'cancel'
+                  ? '    dark:text-blue-400 text-blue-400 border-2 border-blue-300 backdrop-blur-lg bg-white/60 dark:bg-black/60'
+                  : ' bg-white border-b dark:bg-gray-800 dark:border-gray-700  '
+              }
+            >
+              <td className="py-4 px-6">{index + 1}</td>
+              <td className="py-4 px-6">{appointment.customer.firstname}</td>
+              <td className="py-4 px-6">{appointment.status}</td>
+              <td className="py-4 px-6"> {formatDate(appointment?.start)}</td>
+              <td className="py-4 px-6"> {formatTime(appointment?.start)}</td>
+              <td className="py-4 px-6">{appointment.staff.firstname}</td>
+              <td className="py-4 px-6">{appointment.service.serviceName}</td>
+              <td className="py-4 px-6">
+                {'$' + appointment.service.cost + ' USD'}
+              </td>
+              <td className="py-4 px-6 ">
+                {' '}
+                <div className="flex space-x-6 justify-center">
+                  <GreenButton
+                    disabled={appointment.status === 'cancel'}
+                    onClick={() => {
+                      Router.push({
+                        pathname: '/calendar',
+                        query: { isUpdate: true, _id: appointment._id },
+                      });
+                    }}
+                    title={'Modify'}
+                  />
+
+                  <GreenButton
+                    disabled={appointment.status === 'cancel'}
+                    onClick={() => {
+                      setIsAddModal(true);
+                      forceUpdate();
+                      setIsSelected(appointment);
+                    }}
+                    title={'Cancel'}
+                  />
+                  {user.role !== 'customer' &&
+                    appointment.status === 'pending' && (
+                      <GreenButton
+                        disabled={appointment.status === 'approve'}
+                        onClick={toggleApprove.bind(null, appointment._id)}
+                        title={'Approve'}
+                      />
+                    )}
+                </div>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  };
 
   return (
-    <div>
+    <div className="grid grid-cols-6 gap-2  px-8 mx-8">
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="justify-space">
-          <div>
+        <div className="col-span-6 my-12">
+          <div className="col-span-6 my-12">
             {errors
               ? errors.map((err) => (
                   <EncounterError
@@ -79,31 +196,17 @@ const BookingsPage = () => {
                 ))
               : null}{' '}
           </div>
-          <div className=" text-xl h-16  place-content-center my-24 px-8 mx-8">
-            <div className=" focus:ring-4 focus:outline-none  font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2pointer-events-auto  flex divide-x float-right rounded-md bg-white  font-medium leading-5 text-slate-700 shadow-sm ring-1 ring-slate-700/10">
-              <button
-                onClick={() => setFilter('pending')}
-                className=" py-2 px-4 hover:bg-slate-50 hover:text-slate-900  "
-              >
-                Pending
-                {pendingCount.length > 0 && (
-                  <span className="absolute top-36 right-64 px-2 py-1 mr-2 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
-                    {pendingCount.length}
-                  </span>
-                )}
-              </button>
-              <button
-                onClick={() => setFilter('approve')}
-                className="py-2 px-4 hover:bg-slate-50 hover:text-slate-900"
-              >
-                Approve
-              </button>
-              <button
-                onClick={() => setFilter('cancel')}
-                className="py-2 px-4 hover:bg-slate-50 hover:text-slate-900"
-              >
-                Canceled
-              </button>
+          <div className=" col-span-6 ">
+            <div className="flex justify-end py-0 my-0">
+              <BlueButton
+                onClick={() => {
+                  Router.push({
+                    pathname: '/calendar',
+                    query: { isUpdate: false, _id: null },
+                  });
+                }}
+                title={'Add Appointment'}
+              />
             </div>
             <ConfirmationModal
               isOpen={isAddModal}
@@ -111,148 +214,10 @@ const BookingsPage = () => {
               toggleModal={setIsAddModal}
               setErrors={setErrors}
             />
-            <TableContainer>
-              <Table>
-                <TableHeader>
-                  <TableRow className="text-lg items-center">
-                    <TableCell>#</TableCell>
-                    <TableCell>Client</TableCell>
-                    <TableCell>Status</TableCell>
 
-                    <TableCell>Date</TableCell>
-                    <TableCell>Time</TableCell>
-
-                    <TableCell>Staff</TableCell>
-                    <TableCell>Service</TableCell>
-                    <TableCell>Cost</TableCell>
-
-                    <TableCell></TableCell>
-
-                    <TableCell></TableCell>
-
-                    <TableCell>
-                      <div className="flex justify-end">
-                        <Button
-                          onClick={() => {
-                            Router.push({
-                              pathname: '/calendar',
-                              query: { isUpdate: false, _id: null },
-                            });
-                          }}
-                          className=" text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2  "
-                        >
-                          Add Appointment
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                </TableHeader>
-                {filterAppointments.map((item, index) => {
-                  return (
-                    <TableBody key={item._id} className=" items-center ">
-                      <TableRow>
-                        <TableCell>
-                          <span className="text-lg">{index + 1}</span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="font-semibold text-lg ">
-                            {item.customer.firstname}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-lg">{item.status}</span>
-                        </TableCell>
-
-                        <TableCell>
-                          <span className="text-lg">
-                            {formatDate(item?.start)}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-lg">
-                            {formatTime(item?.start)}
-                          </span>
-                        </TableCell>
-
-                        <TableCell>
-                          <span className="text-lg">
-                            {item.staff.firstname}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-lg">
-                            {item.service.serviceName}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <span className="text-lg">
-                            {'$' + item.service.cost + '.00'}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <button
-                            disabled={item.status === 'cancel'}
-                            onClick={() => {
-                              Router.push({
-                                pathname: '/calendar',
-                                query: { isUpdate: true, _id: item._id },
-                              });
-                            }}
-                            className={classNames(
-                              item.status === 'cancel'
-                                ? 'bg-gray-300 text-gray-500  '
-                                : 'text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:bg-gradient-to-br  ',
-                              ' focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800 shadow-lg shadow-blue-500/50 dark:shadow-lg dark:shadow-blue-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'
-                            )}
-                          >
-                            Edit
-                          </button>
-                        </TableCell>
-                        <TableCell>
-                          <button
-                            disabled={item.status === 'cancel'}
-                            onClick={() => {
-                              setIsAddModal(true);
-                              forceUpdate();
-                              setIsSelected(item);
-                            }}
-                            className={classNames(
-                              item.status === 'cancel'
-                                ? 'bg-gray-300 text-gray-500  '
-                                : 'focus:ring-4 focus:outline-none focus:ring-pink-300 dark:focus:ring-pink-800 shadow-lg shadow-pink-500/50 dark:shadow-lg dark:shadow-pink-800/80 ',
-                              'font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2 text-white bg-gradient-to-r from-pink-400 via-pink-500 to-pink-600 hover:bg-gradient-to-br '
-                            )}
-                          >
-                            Cancel
-                          </button>
-                        </TableCell>
-                        {user.role !== 'customer' && item.status === 'pending' && (
-                          <TableCell>
-                            <button
-                              disabled={item.status === 'approve'}
-                              onClick={toggleApprove.bind(null, item._id)}
-                              className={
-                                ' text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 shadow-lg shadow-green-500/50 dark:shadow-lg dark:shadow-green-800/80 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'
-                              }
-                            >
-                              Approve
-                            </button>
-                          </TableCell>
-                        )}
-                      </TableRow>
-                    </TableBody>
-                  );
-                })}
-              </Table>
-            </TableContainer>
-            <TableFooter>
-              <Pagination
-                totalResults={10}
-                resultsPerPage={4}
-                onChange={() => {}}
-                label="Table navigation"
-              />
-            </TableFooter>
+            <div className="col-span-6 my-0">
+              <AppointmentsTable />
+            </div>
           </div>
         </div>
       )}

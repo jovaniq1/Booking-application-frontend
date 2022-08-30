@@ -8,9 +8,12 @@ import {
   Grid,
   Segment,
 } from 'semantic-ui-react';
+import styles from './calendar.module.css';
 import React, { useContext, useState, useEffect } from 'react';
 import { userContext } from '../../context/userContext';
 import { formatTime, formatDate } from '../../components/Helpers/FormatDate';
+import { Calendar } from 'react-calendar';
+import CustomCalendar from '../../components/calendar/CustomCalendar';
 const CalendarPage = () => {
   const userCtx = useContext(userContext);
   const [TodaysAppt, setTodaysAppt] = useState([]);
@@ -23,34 +26,33 @@ const CalendarPage = () => {
     setTodaysAppt(filterData);
   }, [appointments]);
 
+  function getDaysInCurrentMonth() {
+    const date = new Date();
+    return new Date(date.getFullYear(), date.getMonth() + 1, 0).getDate();
+  }
+
+  const result = getDaysInCurrentMonth();
+  console.log('result,', result);
   console.log('Calendar');
   return (
-    <div className="flex justify-center px-24 py-24">
-      <Grid stackable columns={2}>
-        <Grid.Column width={3}>
-          <Segment>
-            <h4>Today&apos;s Appointments</h4>
-          </Segment>
-          {TodaysAppt.map((appt) => {
-            if (appt.status !== 'cancel') {
-              return (
-                <div key={appt._id}>
-                  <li className="py-2">
-                    <Label as="a">
-                      {appt.customer.firstname +
-                        ' at ' +
-                        formatTime(appt?.start)}
-                    </Label>
-                  </li>
-                </div>
-              );
-            }
-          })}
-        </Grid.Column>
-        <Grid.Column width={13}>
-          <CalendarComponent />
-        </Grid.Column>
-      </Grid>
+    <div className=" justify-center lg:flex pt-24 mx-8 gap-8">
+      <div className=" w-full mx-auto h-fit  text-slate-500 text-center  dark:bg-gray-800 dark:text-gray-400 overflow-hidden bg-white shadow sm:rounded-lg">
+        <h4>Today&apos;s Appointments</h4>
+
+        {TodaysAppt.map(
+          (appt) =>
+            appt.status !== 'cancel' && (
+              <li
+                key={appt._id}
+                className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200"
+              >
+                {appt.customer.firstname + ' at ' + formatTime(appt?.start)}
+              </li>
+            )
+        )}
+      </div>
+
+      <CalendarComponent />
     </div>
   );
 };

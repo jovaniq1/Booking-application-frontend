@@ -1,11 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@value colors: "../components/Global/colors.css";
+@value darkerBlue, darkBlue, lightBlue, purpleLight, lightGreen, whiteLight from colors;
 
 html,
 body {
-  padding: 0;
-  margin: 0;
+  background-color: #203243;
+  padding: 0px;
+  margin: 0px;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
 }
@@ -14,7 +17,20 @@ a {
   color: inherit;
   text-decoration: none;
 }
-
-* {
-  box-sizing: border-box;
+.content_bg {
+  background-image: url('../public/wallpaperTheme.jpg');
+  min-height: 100%;
+  height: 120vh;
+  min-width: 100%;
+  background-blend-mode: darken;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  background-position: 50%;
+  text-align: center;
+  background-size: cover;
+  width: 100%;
+  padding: 0 !important;
+  z-index: 2;
+  margin-top: 0px;
 }

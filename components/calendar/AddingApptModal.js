@@ -25,16 +25,24 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
   const [isLoading, setIsLoading] = useState(false);
   const userCtx = useContext(userContext);
   const { customers, fetchAppointments, token, website, user } = userCtx;
-  console.log('data', data);
 
+  let isCustomers;
+  if (!customers) {
+    isCustomers = localStorage.getItem('customers');
+  } else {
+    isCustomers = customers;
+  }
+  console.log('isCustomers', isCustomers);
   useEffect(() => {
-    var filterData = customers?.filter((item) =>
-      item?.firstname
-        .toLowerCase()
-        .includes(searchTerm?.firstname?.toLowerCase())
-    );
+    if (user.role !== 'customer') {
+      var filterData = isCustomers?.filter((item) =>
+        item?.firstname
+          .toLowerCase()
+          .includes(searchTerm?.firstname?.toLowerCase())
+      );
 
-    setSearchResults(filterData.slice(0, 3));
+      setSearchResults(filterData.slice(0, 3));
+    }
   }, [searchTerm]);
 
   // useEffect(() => {
@@ -78,7 +86,7 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
         isToken = JSON.parse(localStorage.getItem('token'));
       }
 
-      console.log('query', query);
+      console.log('slotInfo', info.service);
       const queryAppt = {
         token: isToken,
         graphql: {
@@ -90,8 +98,8 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
             staff: user.role === 'staff' ? user._id : info.staff._id,
             service: info.service._id,
             status: info.status,
-            start: slotInfo.start.toString(),
-            end: slotInfo.end.toString(),
+            start: slotInfo.toString(),
+            end: slotInfo.toString(),
           },
         },
       };

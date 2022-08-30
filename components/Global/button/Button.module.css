@@ -1,0 +1,163 @@
+/* CSS */
+
+/* import your colors... */
+@value colors: "../colors.css";
+@value darkerBlue, darkBlue, lightBlue, purpleLight, lightGreen, whiteLight from colors;
+
+/* CSS */
+.redButtonTheme {
+  background-color: darkBlue;
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  outline: 0;
+  padding: 4px 6px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+.redButtonTheme:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  height: 50%;
+  left: 4%;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  transition: all 0.3s;
+  width: 92%;
+}
+
+.buttonTheme {
+  background-color: rgb(22, 38, 54, 1);
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  outline: 0;
+  padding: 4px 6px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.buttonTheme:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  height: 50%;
+  left: 4%;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  transition: all 0.3s;
+  width: 92%;
+}
+.greenButtonTheme {
+  background-color: darkBlue;
+  border: 0;
+  border-radius: 56px;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  outline: 0;
+  padding: 4px 6px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.greenButtonTheme:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  height: 50%;
+  left: 4%;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  transition: all 0.3s;
+  width: 92%;
+}
+.disableButtonTheme {
+  background-color: whiteLight;
+  border: 0;
+  border-radius: 56px;
+  color: darkBlue;
+  cursor: pointer;
+  display: inline-block;
+  font-family: system-ui, -apple-system, system-ui, 'Segoe UI', Roboto, Ubuntu,
+    'Helvetica Neue', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  outline: 0;
+  padding: 4px 6px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.3s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.disableButtonTheme:before {
+  background-color: initial;
+  background-image: linear-gradient(#fff 0, rgba(255, 255, 255, 0) 100%);
+  border-radius: 125px;
+  height: 50%;
+  left: 4%;
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  transition: all 0.3s;
+  width: 92%;
+}
+
+.redButtonTheme,
+.greenButtonTheme,
+.disableButtonTheme,
+.buttonTheme:hover {
+  box-shadow: rgba(255, 255, 255, 0.2) 0 3px 15px inset,
+    rgba(0, 0, 0, 0.1) 0 3px 5px, rgba(0, 0, 0, 0.1) 0 10px 13px;
+  transform: scale(1.05);
+}
+
+@media (min-width: 768px) {
+  .redButtonTheme,
+  .disableButtonTheme,
+  .greenButtonTheme,
+  .buttonTheme {
+    padding: 8px 20px;
+  }
+}
+
+/* filter in the table */

@@ -17,22 +17,7 @@ const notUser = {
   imageUrl:
     'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
 };
-const loginNavigationCustomer = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'Appointments', href: '/appointments', current: false },
-  { name: 'Calendar', href: '/calendar', current: false },
-];
-const loginNavigation = [
-  { name: 'Home', href: '/', current: false },
-  { name: 'Team', href: '/team', current: false },
-  { name: 'Appointments', href: '/appointments', current: false },
-  { name: 'Calendar', href: '/calendar', current: false },
-  { name: 'Reports', href: '/reports', current: false },
-];
-const notLoginNavigation = [
-  { name: 'Home', href: '/', current: true },
-  { name: 'About', href: '#', current: false },
-];
+
 const userNavigation = [
   { name: 'Your Profile', href: '/profile' },
   { name: 'Settings', href: '/settings' },
@@ -50,8 +35,28 @@ function classNames(...classes) {
 const NavBar = () => {
   const [openTab, setOpenTab] = useState('');
   const userCtx = useContext(userContext);
-  const { isSignIn, setUserIsSignIn, user, setTokenData } = userCtx;
-  console.log('---user', user);
+  const { isSignIn, setUserIsSignIn, user, setTokenData, website } = userCtx;
+  console.log('---website', website);
+  let isWebsite;
+  if (!website) {
+    isWebsite = localStorage.getItem('website');
+  } else {
+    isWebsite = website;
+  }
+  const loginNavigationCustomer = [
+    { name: 'Appointments', href: '/appointments', current: false },
+  ];
+  const loginNavigation = [
+    { name: 'Home', href: `/website/${isWebsite.domain}`, current: false },
+    { name: 'Team', href: '/team', current: false },
+    { name: 'Appointments', href: '/appointments', current: false },
+    { name: 'Calendar', href: '/calendar', current: false },
+    { name: 'Reports', href: '/reports', current: false },
+  ];
+  const notLoginNavigation = [
+    { name: 'Home', href: `/website/${isWebsite.domain}`, current: true },
+    { name: 'About', href: '#', current: false },
+  ];
   const setActiveTab = (name) => {
     setOpenTab(name);
   };
@@ -69,7 +74,7 @@ const NavBar = () => {
   };
 
   return (
-    <div className="min-h-full ">
+    <div className="z-10 min-w-fit w-full absolute ">
       <Disclosure as="nav" className="bg-gray-800">
         {({ open }) => (
           <>
@@ -368,17 +373,3 @@ const NavBar = () => {
   );
 };
 export default memo(NavBar);
-// <header className="bg-white shadow">
-// <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-//   <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-// </div>
-// </header>
-// <main>
-// <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-//   {/* Replace with your content */}
-//   <div className="px-4 py-6 sm:px-0">
-//     <div className="border-4 border-dashed border-gray-200 rounded-lg h-96" />
-//   </div>
-//   {/* /End replace */}
-// </div>
-// </main>

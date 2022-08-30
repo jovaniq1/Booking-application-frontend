@@ -9,6 +9,7 @@ import { Divider, Modal, Form, Search, Icon } from 'semantic-ui-react';
 import { createAppointment } from '../fetching/PostsWithAxios';
 import Staff from '../staff/Staff';
 import SignUpForm from '../Auth/SignUp';
+import { BlueButton } from '../Global/button/Button';
 
 const AddStaffModal = ({ isOpen, toggleModal, user }) => {
   function classNames(...classes) {
@@ -16,45 +17,35 @@ const AddStaffModal = ({ isOpen, toggleModal, user }) => {
   }
 
   return (
-    <Modal
-      onClose={() => {
-        if (isOpen) {
-          toggleModal(false);
-        }
-      }}
-      open={isOpen}
+    <div
+      aria-hidden="true"
+      className={
+        isOpen
+          ? 'absolute bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen  h-screen'
+          : 'hidden '
+      }
     >
-      <Modal.Header className="text-center">
-        {!user ? 'Add New Staff' : user}
-      </Modal.Header>
-      <Modal.Content>
-        <SignUpForm user={user} />
-      </Modal.Content>
-      <Modal.Actions>
-        <div className="gap-12 px-4 space-x-4">
-          <Button
-            onClick={() => {
-              if (isOpen) {
-                toggleModal(false);
-              }
-            }}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500"
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={() => {
-              if (isOpen) {
-                toggleModal(false);
-              }
-            }}
-            className="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Submit
-          </Button>
+      <div className="relative z-50 p-4 w-full m-auto py-24 max-w-2xl h-full md:h-auto">
+        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="flex p-4 rounded-t border-b dark:border-gray-600">
+            <h3 className="text-xl m-auto font-semibold text-gray-900 dark:text-white">
+              {!user ? 'New Staff' : user}
+            </h3>
+          </div>
+
+          <div className="py-6 px-4">
+            <div className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              <SignUpForm />
+            </div>
+          </div>
+
+          <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+            <BlueButton title="Cancel" onClick={() => toggleModal(false)} />
+            <BlueButton title="Done" onClick={() => toggleModal(false)} />
+          </div>
         </div>
-      </Modal.Actions>
-    </Modal>
+      </div>
+    </div>
   );
 };
 export default AddStaffModal;

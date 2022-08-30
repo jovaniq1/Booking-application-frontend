@@ -10,7 +10,12 @@ function classNames(...classes) {
 const DropDownService = ({ setIsServiceSelected }) => {
   const userCtx = useContext(userContext);
   const { services } = userCtx;
-
+  let isServices;
+  if (!services) {
+    isServices = localStorage.getItem('services');
+  } else {
+    isServices = services;
+  }
   const people = [
     {
       _id: 1,
@@ -59,7 +64,7 @@ const DropDownService = ({ setIsServiceSelected }) => {
               leaveTo="opacity-0"
             >
               <Listbox.Options className="absolute z-10 mt-1 w-fit bg-white shadow-lg max-h-56 rounded-md py-1 text-base ring-1 ring-black ring-opacity-5 overflow-auto focus:outline-none sm:text-sm">
-                {services.map((service) => (
+                {isServices.map((service) => (
                   <Listbox.Option
                     key={service._id}
                     className={({ active }) =>

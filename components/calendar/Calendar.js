@@ -1,5 +1,6 @@
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
+import CustomCalendar from './CustomCalendar';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import React, { useCallback, useState, useContext, useEffect } from 'react';
 import AddingApptModal from './AddingApptModal';
@@ -21,6 +22,7 @@ const CalendarComponent = () => {
 
   const handleSelectSlot = useCallback(
     async (slotInfo) => {
+      console.log('timeslot===', slotInfo);
       setIsSlotInfo(slotInfo);
       toggleAddAppt(true);
     },
@@ -59,16 +61,9 @@ const CalendarComponent = () => {
         slotInfo={isSlotInfo}
         data={data}
       />
-      <Calendar
-        titleAccessor="title"
-        localizer={localizer}
-        events={formattedAppointment}
-        defaultDate={new Date()}
-        defaultView="month"
-        style={{ height: '75em', width: '75em' }}
-        onSelectEvent={handleSelectEvent}
-        onSelectSlot={handleSelectSlot}
-        selectable
+      <CustomCalendar
+        size="lg:w-[21vw] lg:h-[38vh] lg:text-lg"
+        handleSelectSlot={handleSelectSlot}
       />
     </div>
   );

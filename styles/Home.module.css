@@ -1,10 +1,14 @@
+@value colors: "../components/Global/colors.css";
+@value darkerBlue, darkBlue, lightBlue, purpleLight, lightGreen, whiteLight from colors;
+
 .container {
   padding: 0 2rem;
 }
 
 .main {
+  background-color: black;
   min-height: 100vh;
-  padding: 4rem 0;
+  padding: 0rem 0;
   flex: 1;
   display: flex;
   flex-direction: column;

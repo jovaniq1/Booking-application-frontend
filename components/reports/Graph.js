@@ -8,7 +8,20 @@ const GraphComponent = () => {
         id: 'apexchart-example',
       },
       xaxis: {
-        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999],
+        categories: [
+          'Jan',
+          'Feb',
+          'Mar',
+          'Apr',
+          'May',
+          'Jun',
+          'Jul',
+          'Aug',
+          'Sep',
+          'Oct',
+          'Nov',
+          'Dec',
+        ],
       },
     },
     series: [

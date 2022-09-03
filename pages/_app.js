@@ -16,17 +16,17 @@ const Layout = ({ children }) => (
 );
 
 const MyApp = ({ Component, pageProps }) => (
-  <Windmill theme={myTheme} dark>
-    <WebContextProvider>
-      <UserContextProvider>
-        <div className="bg-gradient-to-r from-slate-100 to-slate-400 border-0">
+  <div className="bg-gradient-to-r from-slate-100 to-slate-400 border-0">
+    <Windmill theme={myTheme} dark>
+      <WebContextProvider>
+        <UserContextProvider>
           <Layout>
             <Component {...pageProps} />
           </Layout>
-        </div>
-      </UserContextProvider>
-    </WebContextProvider>
-  </Windmill>
+        </UserContextProvider>
+      </WebContextProvider>
+    </Windmill>
+  </div>
 );
 
 export default MyApp;

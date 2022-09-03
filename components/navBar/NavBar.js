@@ -47,14 +47,14 @@ const NavBar = () => {
     { name: 'Appointments', href: '/appointments', current: false },
   ];
   const loginNavigation = [
-    { name: 'Home', href: `/website/${isWebsite.domain}`, current: false },
+    { name: 'Website', href: `/website/${isWebsite.domain}`, current: false },
     { name: 'Team', href: '/team', current: false },
     { name: 'Appointments', href: '/appointments', current: false },
     { name: 'Calendar', href: '/calendar', current: false },
     { name: 'Reports', href: '/reports', current: false },
   ];
   const notLoginNavigation = [
-    { name: 'Home', href: `/website/${isWebsite.domain}`, current: true },
+    { name: 'Home', href: '/', current: true },
     { name: 'About', href: '#', current: false },
   ];
   const setActiveTab = (name) => {
@@ -74,20 +74,22 @@ const NavBar = () => {
   };
 
   return (
-    <div className="z-10 min-w-fit w-full absolute ">
-      <Disclosure as="nav" className="bg-gray-800">
+    <div className="z-10 min-w-fit w-full absolute text-slate-200 dark:text-blue-900 ">
+      <Disclosure as="nav" className="bg-blue-800 dark:bg-blue-900">
         {({ open }) => (
           <>
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
               <div className="flex items-center justify-between h-16">
                 <div className="flex items-center">
                   <div className="flex-shrink-0">
-                    <Icon
-                      size="big"
-                      className="text-indigo-500 group-hover:text-indigo-400"
-                      aria-hidden="true"
-                      name="book"
-                    />
+                    <Link href="/">
+                      <a className="flex items-center sm:mb-0 ">
+                        <Icon name="book" size="big" />
+                        <span className="self-center text-2xl font-semibold whitespace-nowrap ">
+                          Booking
+                        </span>
+                      </a>
+                    </Link>
                   </div>
                   <div className="hidden md:block">
                     <div className="ml-10 flex items-baseline space-x-4">

@@ -35,7 +35,7 @@ const AddStaffModal = ({ isOpen, toggleModal, user }) => {
 
           <div className="py-6 px-4">
             <div className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-              <SignUpForm />
+              <SignUpForm user={user} />
             </div>
           </div>
 

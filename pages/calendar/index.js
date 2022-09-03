@@ -32,7 +32,7 @@ const CalendarPage = () => {
   }
 
   const result = getDaysInCurrentMonth();
-  console.log('result,', result);
+  console.log('TodaysAppt,', TodaysAppt);
   console.log('Calendar');
   return (
     <div className=" justify-center lg:flex pt-24 mx-8 gap-8">
@@ -44,9 +44,14 @@ const CalendarPage = () => {
             appt.status !== 'cancel' && (
               <li
                 key={appt._id}
-                className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200"
+                className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200 p-2"
               >
-                {appt.customer.firstname + ' at ' + formatTime(appt?.start)}
+                {'A ' +
+                  appt.service.serviceName +
+                  ' for ' +
+                  appt.customer.firstname +
+                  ' at ' +
+                  formatTime(appt?.start)}
               </li>
             )
         )}

@@ -14,6 +14,7 @@ import {
 import Staff from '../staff/Staff';
 import AddStaffModal from '../staff/AddStaffModal';
 import DropDownService from '../Global/Dropdown';
+import { BlueButton } from '../Global/button/Button';
 
 const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
   const [searchResults, setSearchResults] = useState([]);
@@ -156,75 +157,90 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
   };
 
   return (
-    <Modal
-      onClose={() => {
-        if (isOpen) {
-          toggleModal(false);
-        }
-      }}
-      open={isOpen}
+    <div
+      aria-hidden="true"
+      className={
+        isOpen
+          ? 'absolute bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen  h-screen'
+          : 'hidden '
+      }
     >
-      <Modal.Header>
-        Add Appointment{' '}
-        <div className="flex flex-row-reverse">
-          <Button
-            basic
-            onClick={() => {
-              setIsAddModal(true);
-            }}
-            color="blue"
-            icon="user"
-            label={{
-              as: 'a',
-              basic: true,
-              color: 'blue',
-              pointing: 'left',
-              content: 'New Customer',
-            }}
-          />
+      <div className="relative z-50 p-4 w-full m-auto py-24 max-w-2xl h-full md:h-auto">
+        <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="flex p-4 rounded-t border-b dark:border-gray-600">
+            <h3 className="text-xl m-auto font-semibold text-gray-900 dark:text-white">
+              Add Appointment
+            </h3>
+          </div>
+
+          <div className="py-6 px-4">
+            <div className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+              {/* <div className="flex flex-row-reverse">
+                <Button
+                  basic
+                  onClick={() => {
+                    setIsAddModal(true);
+                  }}
+                  color="blue"
+                  icon="user"
+                  label={{
+                    as: 'a',
+                    basic: true,
+                    color: 'blue',
+                    pointing: 'left',
+                    content: 'New Customer',
+                  }}
+                />
+              </div> */}
+
+              <div className=" flex justify-center flex-row place-items-center gap-12">
+                <Label className="py-2">
+                  <DropDownService
+                    setIsServiceSelected={setIsServiceSelected}
+                  />
+                </Label>
+
+                {user.role === 'staff' ? null : (
+                  <AddStaffModal
+                    isOpen={isAddModal}
+                    toggleModal={setIsAddModal}
+                    user={'New Customer'}
+                  />
+                )}
+                {user.role === 'customer' ? null : (
+                  <Label className="py-2">
+                    <span>Find Customer</span>
+                    <Search
+                      fluid
+                      loading={isLoading}
+                      onSearchChange={handleChange}
+                      results={searchResults}
+                      value={searchTerm?.firstname}
+                      resultRenderer={resultRenderer}
+                      placeholder="Customer name"
+                    />
+                  </Label>
+                )}
+
+                {user.role === 'staff' ? null : (
+                  <Label className="py-1">
+                    <Staff handleStaffSelected={handleStaffSelected} />
+                  </Label>
+                )}
+
+                <Divider hidden />
+              </div>
+            </div>
+          </div>
+
+          <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+            <BlueButton title="Cancel" onClick={() => toggleModal(false)} />
+
+            <BlueButton title="Submit" onClick={handleSubmit} />
+          </div>
         </div>
-      </Modal.Header>
-      <Modal.Content>
-        <div className=" flex justify-center flex-row place-items-center gap-12">
-          <Label className="py-2">
-            <DropDownService setIsServiceSelected={setIsServiceSelected} />
-          </Label>
-
-          {user.role === 'staff' ? null : (
-            <AddStaffModal
-              isOpen={isAddModal}
-              toggleModal={setIsAddModal}
-              user={'New Customer'}
-            />
-          )}
-          {user.role === 'customer' ? null : (
-            <Label className="py-2">
-              <span>Find Customer</span>
-              <Search
-                fluid
-                loading={isLoading}
-                onSearchChange={handleChange}
-                results={searchResults}
-                value={searchTerm?.firstname}
-                resultRenderer={resultRenderer}
-                placeholder="Customer name"
-              />
-            </Label>
-          )}
-
-          {user.role === 'staff' ? null : (
-            <Label className="py-1">
-              <Staff handleStaffSelected={handleStaffSelected} />
-            </Label>
-          )}
-
-          <Divider hidden />
-        </div>
-      </Modal.Content>
-      <Modal.Actions>
-        <Button onClick={handleSubmit}>Submit</Button>
-      </Modal.Actions>
-    </Modal>
+      </div>
+    </div>
   );
 };
 export default AddingApptModal;

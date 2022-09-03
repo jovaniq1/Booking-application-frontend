@@ -32,7 +32,7 @@ const DropDownService = ({ setIsServiceSelected }) => {
     <Listbox value={selected} onChange={setSelected}>
       {({ open }) => (
         <>
-          <Listbox.Label className="block text-sm font-medium text-gray-700">
+          <Listbox.Label className="block text-sm font-medium ">
             Select Service
           </Listbox.Label>
           <div className="mt-1 relative">
@@ -48,11 +48,7 @@ const DropDownService = ({ setIsServiceSelected }) => {
                 </span>
               </span>
               <span className="ml-3 absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                <Icon
-                  name="select"
-                  className="h-5 w-5 text-gray-400"
-                  aria-hidden="true"
-                />
+                <Icon name="select" className="h-5 w-5 " aria-hidden="true" />
               </span>
             </Listbox.Button>
 

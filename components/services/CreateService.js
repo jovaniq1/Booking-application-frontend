@@ -101,21 +101,21 @@ const CreateService = () => {
           <div className="md:grid md:grid-cols-3 md:gap-6">
             <div className="md:col-span-1">
               <div className="px-4 sm:px-0">
-                <h3 className="text-lg font-medium leading-6 text-gray-900">
+                <h3 className="text-lg font-medium leading-6 ">
                   Service Information
                 </h3>
-                <p className="mt-1 text-sm text-gray-600">Filled all inputs.</p>
+                <p className="mt-1 text-sm ">Filled all inputs.</p>
               </div>
             </div>
 
             <div className="mt-5 md:mt-0 md:col-span-2">
               <div className="shadow overflow-hidden sm:rounded-md">
-                <div className="px-4 py-5 bg-white sm:p-6">
+                <div className="px-4 py-5  sm:p-6">
                   <div className="grid grid-cols-6 gap-6">
                     <div className="col-span-6 sm:col-span-3">
                       <label
                         htmlFor="serviceName"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium "
                       >
                         Service name
                       </label>
@@ -131,7 +131,7 @@ const CreateService = () => {
                     <div className="col-span-6 sm:col-span-3">
                       <label
                         htmlFor="duration"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium "
                       >
                         Duration
                       </label>
@@ -146,7 +146,7 @@ const CreateService = () => {
                     <div className="col-span-6 sm:col-span-3">
                       <label
                         htmlFor="cost"
-                        className="block text-sm font-medium text-gray-700"
+                        className="block text-sm font-medium "
                       >
                         Cost
                       </label>
@@ -161,7 +161,7 @@ const CreateService = () => {
                     <div className="col-span-6 sm:col-span-3">
                       <label
                         htmlFor="about"
-                        className="block text-sm font-medium text-gray-700 w-full"
+                        className="block text-sm font-medium w-full"
                       >
                         Service description
                       </label>
@@ -175,7 +175,7 @@ const CreateService = () => {
                           defaultValue=""
                         />
                       </div>
-                      <p className="mt-2 text-sm text-gray-500">
+                      <p className="mt-2 text-sm ">
                         Brief description for your service.
                       </p>
                     </div>

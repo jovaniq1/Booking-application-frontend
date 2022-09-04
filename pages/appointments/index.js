@@ -70,33 +70,30 @@ const BookingsPage = () => {
       <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead className=" bg-blue-700 text-xs text-slate-200 uppercase  dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="py-3 px-6">
-              #
-            </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Client
             </th>
 
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Status
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Date
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Time
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Staff
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Service
             </th>
-            <th scope="col" className="py-3 px-6">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Cost
             </th>
-            <th scope="col" className="py-3 px-6">
-              <div className=" focus:outline-none space-x-4  text-sm px-5 py-2.5 text-center mr-2 mb-2pointer-events-auto  flex divide-x float-right rounded-md bg-blue-800  font-medium leading-5 text-slate-200 shadow-sm ring-1 ring-slate-700/10">
+            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
+              <div className=" focus:outline-none space-x-4  text-sm lg:px-5 lg:py-2.5 text-center lg:mr-2 mb-2pointer-events-auto  flex divide-x float-right rounded-md bg-blue-800  font-medium leading-5 text-slate-200 shadow-sm ring-1 ring-slate-700/10">
                 {pendingCount.length > 0 && (
                   <Label color="red" circular>
                     {pendingCount.length}
@@ -128,14 +125,23 @@ const BookingsPage = () => {
                   : ' bg-white border-b dark:bg-gray-800 dark:border-gray-700  '
               }
             >
-              <td className="py-4 px-6">{index + 1}</td>
-              <td className="py-4 px-6">{appointment.customer.firstname}</td>
-              <td className="py-4 px-6">{appointment.status}</td>
-              <td className="py-4 px-6"> {formatDate(appointment?.start)}</td>
-              <td className="py-4 px-6"> {formatTime(appointment?.start)}</td>
-              <td className="py-4 px-6">{appointment.staff.firstname}</td>
-              <td className="py-4 px-6">{appointment.service.serviceName}</td>
-              <td className="py-4 px-6">
+              <td className="lg:py-4 lg:px-6">
+                {appointment.customer.firstname}
+              </td>
+              <td className="lg:py-4 lg:px-6">{appointment.status}</td>
+              <td className="lg:py-4 lg:px-6">
+                {' '}
+                {formatDate(appointment?.start)}
+              </td>
+              <td className="lg:py-4 lg:px-6">
+                {' '}
+                {formatTime(appointment?.start)}
+              </td>
+              <td className="lg:py-4 lg:px-6">{appointment.staff.firstname}</td>
+              <td className="lg:py-4 lg:px-6">
+                {appointment.service.serviceName}
+              </td>
+              <td className="lg:py-4 lg:px-6">
                 {'$' + appointment.service.cost + ' USD'}
               </td>
               <td className="py-4 px-6 ">

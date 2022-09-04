@@ -57,6 +57,10 @@ const NavBar = () => {
     { name: 'Home', href: '/', current: true },
     { name: 'About', href: '#', current: false },
   ];
+  const dropdownLoginNavigation = [
+    { name: 'Home', href: '/', current: true },
+    { name: 'Sign out', href: '/login', onClick: 'signOut' },
+  ];
   const setActiveTab = (name) => {
     setOpenTab(name);
   };
@@ -354,17 +358,29 @@ const NavBar = () => {
                   </button>
                 </div>
                 <div className="mt-3 px-2 space-y-1">
-                  {notLoginNavigation.map((item) => (
-                    <Disclosure.Button
-                      key={item.name}
-                      onClick={item.onClick === 'signOut' ? signOut : null}
-                      as="a"
-                      href={item.href}
-                      className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
-                    >
-                      {item.name}
-                    </Disclosure.Button>
-                  ))}
+                  {isSignIn
+                    ? dropdownLoginNavigation.map((item) => (
+                        <Disclosure.Button
+                          key={item.name}
+                          onClick={item.onClick === 'signOut' ? signOut : null}
+                          as="a"
+                          href={item.href}
+                          className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                        >
+                          {item.name}
+                        </Disclosure.Button>
+                      ))
+                    : notLoginNavigation.map((item) => (
+                        <Disclosure.Button
+                          key={item.name}
+                          onClick={item.onClick === 'signOut' ? signOut : null}
+                          as="a"
+                          href={item.href}
+                          className="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700"
+                        >
+                          {item.name}
+                        </Disclosure.Button>
+                      ))}
                 </div>
               </div>
             </Disclosure.Panel>

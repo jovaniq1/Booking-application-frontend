@@ -1,6 +1,7 @@
+import { Icon } from 'semantic-ui-react';
 import styles from './Button.module.css';
 
-export const BlueButton = ({ onClick, title, disabled }) => {
+export const BlueButton = ({ onClick, title, disabled, icon }) => {
   return (
     <button
       disabled={disabled}
@@ -13,6 +14,7 @@ export const BlueButton = ({ onClick, title, disabled }) => {
       role="button"
     >
       {title}
+      {icon && <Icon className="flex pl-2" name={icon} />}
     </button>
   );
 };

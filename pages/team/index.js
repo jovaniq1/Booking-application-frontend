@@ -45,8 +45,8 @@ const StaffPage = () => {
       {isLoading === false ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-6 gap-2  px-8 mx-8">
-          <div className="col-span-6 my-24 py-8">
+        <div className="grid grid-cols-6 gap-2 mx-2  lg:px-8 lg:mx-8">
+          <div className="col-span-6 my-24 lg:py-8">
             <AddStaffModal
               isOpen={isAddModalStaff}
               toggleModal={setIsAddModalStaff}

@@ -31,18 +31,20 @@ const DaySelection = ({
 }) => {
   return (
     <tr className="bg-white border-b dark:bg-gray-700 dark:text-slate-200 font-bold text-blue-800 dark:border-gray-700">
-      <td className="py-4 px-6">
+      <td className="lg:py-4 px-0 lg:px-6">
         <Checkbox
           label={
             <label>
-              <h6 className="dark:text-slate-200 text-blue-900">{day}</h6>
+              <span className="dark:text-slate-200 px-0 lg:text-lg text-xs  mx-0 text-blue-900">
+                {day}
+              </span>
             </label>
           }
           onChange={onChangeCheck}
           checked={checked}
         />
       </td>
-      <td className="py-4 px-6">
+      <td className="lg:py-4 px-0 mx-0  lg:px-0 md:px-8 sm:px-8">
         <NumberFormat
           format="##:##"
           customInput={Input}
@@ -60,7 +62,7 @@ const DaySelection = ({
           labelPosition="right"
         />
       </td>
-      <td className="py-4 px-6">
+      <td className="lg:py-4  px-0 mx-0 lg:px-0 md:px-6 sm:px-6">
         <NumberFormat
           format="##:##"
           fluid
@@ -199,7 +201,7 @@ const ScheduleModal = ({ isOpen, toggleModal, setErrors, isSelected }) => {
           : 'hidden '
       }
     >
-      <div className="relative z-50 p-4 w-full m-auto py-24 max-w-2xl h-full md:h-auto">
+      <div className="relative z-50 lg:p-4 w-full m-auto py-24 max-w-2xl h-full md:h-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex p-4 rounded-t border-b dark:border-gray-600">
             <h3 className="text-xl m-auto font-semibold text-gray-900 dark:text-white">
@@ -207,7 +209,7 @@ const ScheduleModal = ({ isOpen, toggleModal, setErrors, isSelected }) => {
             </h3>
           </div>
 
-          <div className="py-6 px-4">
+          <div className="lg:py-6 lg:px-4">
             <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
               <tbody>
                 <DaySelection

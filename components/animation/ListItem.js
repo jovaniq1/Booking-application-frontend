@@ -1,10 +1,22 @@
 import { Icon } from 'semantic-ui-react';
 
-export default function ListItem({ data, type }) {
+export default function ListItem({
+  data,
+  type,
+  staffSelected,
+  serviceSelected,
+}) {
+  let isServiceSelected = false;
+  let isStaffSelected = false;
+
   return (
     <a
       className="flex bg-white text-blue-900 items-start space-x-6 p-6 dark:bg-gray-700 dark:text-gray-400 hover:bg-blue-800 hover:text-white"
-      href={'./test'}
+      onClick={
+        type === 'Staff'
+          ? () => staffSelected(data)
+          : () => serviceSelected(data)
+      }
     >
       <Icon
         name={type === 'Staff' ? 'user' : 'shop'}

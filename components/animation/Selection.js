@@ -3,7 +3,7 @@ import { Button, Divider, Image, Transition } from 'semantic-ui-react';
 import Nav from './Nav';
 import ListItem from './ListItem';
 import styles from './selection.module.css';
-const Selection = ({ staff, services }) => {
+const Selection = ({ staff, services, staffSelected, serviceSelected }) => {
   const [visible, setVisible] = useState(true);
   const [selection, setSelection] = useState('Staff');
   setTimeout(() => {
@@ -39,10 +39,22 @@ const Selection = ({ staff, services }) => {
       <ul className="divide-y divide-slate-100">
         {selection === 'Staff'
           ? staff.map((person) => (
-              <ListItem key={person._id} type="Staff" data={person} />
+              <ListItem
+                key={person._id}
+                type="Staff"
+                data={person}
+                serviceSelected={serviceSelected}
+                staffSelected={staffSelected}
+              />
             ))
           : services.map((service) => (
-              <ListItem key={service._id} type="Service" data={service} />
+              <ListItem
+                key={service._id}
+                type="Service"
+                data={service}
+                serviceSelected={serviceSelected}
+                staffSelected={staffSelected}
+              />
             ))}
       </ul>
     </section>

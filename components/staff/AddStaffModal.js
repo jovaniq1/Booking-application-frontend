@@ -18,14 +18,13 @@ const AddStaffModal = ({ isOpen, toggleModal, user }) => {
 
   return (
     <div
-      aria-hidden="true"
       className={
         isOpen
-          ? 'absolute bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen  h-screen'
+          ? 'fixed bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen h-screen'
           : 'hidden '
       }
     >
-      <div className="relative z-50 p-4 w-full m-auto py-24 max-w-2xl h-full md:h-auto">
+      <div className="relative z-50 px-4 w-full lg:pt-24 m-auto pt-1 max-w-2xl h-full md:h-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex p-4 rounded-t border-b dark:border-gray-600">
             <h3 className="text-xl m-auto font-semibold text-gray-900 dark:text-white">
@@ -39,7 +38,7 @@ const AddStaffModal = ({ isOpen, toggleModal, user }) => {
             </div>
           </div>
 
-          <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+          <div className="flex flex-end justify-end space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
             <BlueButton title="Cancel" onClick={() => toggleModal(false)} />
             <BlueButton title="Done" onClick={() => toggleModal(false)} />
           </div>

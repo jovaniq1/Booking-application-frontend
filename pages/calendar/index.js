@@ -16,7 +16,7 @@ import { Calendar } from 'react-calendar';
 import CustomCalendar from '../../components/calendar/CustomCalendar';
 const CalendarPage = () => {
   const userCtx = useContext(userContext);
-  const [TodaysAppt, setTodaysAppt] = useState([]);
+  const [todaysAppt, setTodaysAppt] = useState([]);
   const { setAppointmentsData, appointments } = userCtx;
   useEffect(() => {
     let currentDate = new Date();
@@ -32,28 +32,34 @@ const CalendarPage = () => {
   }
 
   const result = getDaysInCurrentMonth();
-  console.log('TodaysAppt,', TodaysAppt);
-  console.log('Calendar');
+
   return (
     <div className=" justify-center lg:flex pt-24 mx-8 gap-8">
-      <div className=" w-full mx-auto h-fit  text-slate-500 text-center  dark:bg-gray-800 dark:text-gray-400 overflow-hidden bg-white shadow sm:rounded-lg">
+      <div className=" w-full mx-auto h-fit  text-slate-500 text-center mb-12  dark:bg-gray-800 dark:text-gray-400 overflow-hidden bg-white shadow sm:rounded-lg">
         <h4>Today&apos;s Appointments</h4>
 
-        {TodaysAppt.map(
-          (appt) =>
-            appt.status !== 'cancel' && (
-              <li
-                key={appt._id}
-                className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200 p-2"
-              >
-                {'A ' +
-                  appt.service.serviceName +
-                  ' for ' +
-                  appt.customer.firstname +
-                  ' at ' +
-                  formatTime(appt?.start)}
-              </li>
-            )
+        {todaysAppt.length !== 0 ? (
+          TodaysAppt.map(
+            (appt) =>
+              appt.status !== 'cancel' && (
+                <li
+                  key={appt._id}
+                  className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200 p-2"
+                >
+                  {'A ' +
+                    appt.service.serviceName +
+                    ' for ' +
+                    appt.customer.firstname +
+                    ' at ' +
+                    formatTime(appt?.start)}
+                </li>
+              )
+          )
+        ) : (
+          <l1 className="  dark:bg-blue-700 font-semibold text-center  text-sm  dark:text-gray-200 p-2">
+            {' '}
+            No Appointments
+          </l1>
         )}
       </div>
 

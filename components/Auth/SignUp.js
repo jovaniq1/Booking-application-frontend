@@ -151,11 +151,9 @@ const SignUpForm = ({ user }) => {
 
   return (
     <div
-      className={`text-xs text-blue-800 uppercase ${
-        user
-          ? 'dark:bg-gray-700 dark:text-gray-400 sm:mx-0 sm:pt-0 '
-          : 'h-screen'
-      }    mx-24 py-24 pb-72 `}
+      className={`text-xs text-blue-800 uppercase mt-0 ${
+        user ? 'dark:bg-gray-700 dark:text-gray-400  sm:pt-0 ' : 'h-screen'
+      }      pb-0 `}
     >
       {errors
         ? errors.map((err) => (
@@ -173,10 +171,10 @@ const SignUpForm = ({ user }) => {
           method="POST"
           encType="multipart/form-data"
         >
-          <div className="mt-10 sm:mt-0">
+          <div className="mt-0 sm:mt-0">
             <div className="md:grid md:grid-cols-3 md:gap-6">
               <div className="md:col-span-1">
-                <div className="px-4 sm:px-0">
+                <div className="px-0 sm:px-0">
                   <h3 className="text-lg ">Personal Information</h3>
                   <p className="mt-1 text-sm ">
                     Use a permanent address where you can receive mail.

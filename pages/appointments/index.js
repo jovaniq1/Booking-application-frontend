@@ -31,11 +31,13 @@ import {
 } from '../../components/Global/button/Button';
 import DropDownFilter from '../../components/appointment/DropDownFilter';
 import DropDownEdit from '../../components/appointment/DropDownEdit';
+import AppointmentDetailsModal from '../../components/appointment/AppointmentDetailsModal';
 
 const BookingsPage = () => {
   const [isAddModal, setIsAddModal] = useState(false);
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [isView, setIsView] = useState(false);
   const [isSelected, setIsSelected] = useState({});
   const [filter, setFilter] = useState('approve');
   const [, updateState] = useState();
@@ -77,7 +79,7 @@ const BookingsPage = () => {
       <table className="table-auto w-full text-sm   text-gray-500 dark:text-gray-400">
         <thead className=" bg-blue-700 text-xs text-slate-200 uppercase  dark:bg-gray-700 dark:text-gray-400">
           <tr>
-            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
+            <th scope="col" className="lg:py-3 py-2 px-0 mx-0 lg:px-6">
               Client
             </th>
 
@@ -90,15 +92,7 @@ const BookingsPage = () => {
             <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
               Time
             </th>
-            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
-              Staff
-            </th>
-            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
-              Service
-            </th>
-            <th scope="col" className="lg:py-3 px-0 mx-0 lg:px-6">
-              Cost
-            </th>
+
             <th scope="col" className="lg:py-3 px-0 lg:mx-0 lg:px-6">
               <div className="flex-row focus:outline-none lg:space-x-4 py-0 my-0  text-sm lg:px-5 lg:py-2.5 text-center lg:mr-2 mb-2pointer-events-auto  flex  float-right rounded-md   font-medium leading-5 text-slate-200 shadow-sm ring-1 ring-slate-700/10">
                 {pendingCount.length > 0 && (
@@ -137,20 +131,21 @@ const BookingsPage = () => {
                 {' '}
                 {formatTime(appointment?.start)}
               </td>
-              <td className="lg:py-4 lg:px-6">{appointment.staff.firstname}</td>
-              <td className="lg:py-4 lg:px-6">
-                {appointment.service.serviceName}
-              </td>
-              <td className="lg:py-4 lg:px-6">
-                {'$' + appointment.service.cost + ' USD'}
-              </td>
+
               <td className="lg:py-4 lg:px-6 ">
                 {' '}
-                <div className="flex lg:space-x-6 justify-center">
+                <div className="flex lg:space-x-6 gap-2 justify-center">
+                  <BlueButton
+                    title={isView ? 'Hide' : 'View'}
+                    onClick={() => {
+                      setIsView(!isView);
+                      setIsSelected(appointment);
+                    }}
+                  />
                   {appointment.status !== 'cancel' && (
                     <Menu as="div" className="relative inline-block text-left">
                       <div>
-                        <Menu.Button className=" rounded-md flex-row dark:bg-slate-200 dark:text-slate-200  opacity-3 sm:py-1 sm:px-3  shadow-lg hover:shadow-blue-800/50 hover:scale-105 bg-blue-800 before:bg-inherit bg-gradient-to-r from-blue-900 to-blue-800   border-0 text-center transition-all touch-auto text-slate-100 cursor-pointer inline-block font-normal font-sans text-sm lg:px-3 lg:py-2">
+                        <Menu.Button className=" rounded-md dark:bg-slate-200 dark:text-slate-200  opacity-3 sm:py-1 sm:px-3  shadow-lg hover:shadow-blue-800/50 hover:scale-105 bg-blue-800 before:bg-inherit bg-gradient-to-r from-blue-900 to-blue-800   border-0 text-center transition-all touch-auto text-slate-100 cursor-pointer inline-block font-normal font-sans text-sm px-3 py-2">
                           {user.role !== 'customer' &&
                           appointment.status === 'pending'
                             ? 'Approve'
@@ -238,55 +233,27 @@ const BookingsPage = () => {
                       </Transition>
                     </Menu>
                   )}
-
-                  {/* <GreenButton
-                    disabled={appointment.status === 'cancel'}
-                    onClick={() => {
-                      Router.push({
-                        pathname: '/calendar',
-                        query: { isUpdate: true, _id: appointment._id },
-                      });
-                    }}
-                    title={'Modify'}
-                  />
-
-                  <GreenButton
-                    disabled={appointment.status === 'cancel'}
-                    onClick={() => {
-                      setIsAddModal(true);
-                      forceUpdate();
-                      setIsSelected(appointment);
-                    }}
-                    title={'Cancel'}
-                  />
-                  {user.role !== 'customer' &&
-                    appointment.status === 'pending' && (
-                      <GreenButton
-                        disabled={appointment.status === 'approve'}
-                        onClick={toggleApprove.bind(null, appointment._id)}
-                        title={'Approve'}
-                      />
-                    )}
-                  <DropDownEdit
-                    appointment={appointment}
-                    isSelected={isSelected}
-                    cancel={() => {
-                      setIsAddModal(true);
-                      forceUpdate();
-                      setIsSelected(appointment);
-                    }}
-                    role={user.role}
-                    modify={() => {
-                      Router.push({
-                        pathname: '/calendar',
-                        query: { isUpdate: true, _id: appointment._id },
-                      });
-                    }}
-                  /> */}
                 </div>
               </td>
             </tr>
           ))}
+          {isView && (
+            <table>
+              <tbody>
+                <tr>
+                  <td className="lg:py-4 lg:px-6">
+                    {isSelected.staff.firstname}
+                  </td>
+                  <td className="lg:py-4 lg:px-6">
+                    {isSelected.service.serviceName}
+                  </td>
+                  <td className="lg:py-4 lg:px-6">
+                    {'$' + isSelected.service.cost + ' USD'}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          )}
         </tbody>
       </table>
     );
@@ -330,6 +297,13 @@ const BookingsPage = () => {
                   title={'Add Appointment'}
                 />
               </div>
+              {isView && (
+                <AppointmentDetailsModal
+                  isOpen={isView}
+                  toggleModal={setIsView}
+                  appointment={isSelected}
+                />
+              )}
               <AppointmentsTable />
             </div>
           </div>

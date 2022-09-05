@@ -12,11 +12,11 @@ const CreateServiceModal = ({ isOpen, toggleModal }) => {
       aria-hidden="true"
       className={
         isOpen
-          ? 'absolute bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen  h-screen'
+          ? 'fixed bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen h-screen'
           : 'hidden '
       }
     >
-      <div className="relative z-50 p-4 m-auto py-24 align-middle max-w-2xl justify-center  md:h-auto">
+      <div className="relative z-50 p-4 m-auto py-24 align-middle  max-w-2xl justify-center  md:h-auto">
         <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <div className="flex p-4 rounded-t border-b dark:border-gray-600">
             <h3 className="text-xl m-auto font-semibold text-gray-900 dark:text-white">
@@ -30,7 +30,7 @@ const CreateServiceModal = ({ isOpen, toggleModal }) => {
             </div>
           </div>
 
-          <div className="flex items-center p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
+          <div className="flex justify-end p-6 space-x-2 rounded-b border-t border-gray-200 dark:border-gray-600">
             <BlueButton title="Cancel" onClick={() => toggleModal(false)} />
             <BlueButton title="Done" onClick={() => toggleModal(false)} />
           </div>

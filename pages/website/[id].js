@@ -27,6 +27,8 @@ const WebsiteInfo = () => {
   const userCtx = useContext(userContext);
   const { setGetWebsiteData, staff, services } = userCtx;
   const [value, onChange] = useState(new Date());
+  const [serviceSelected, setServiceSelected] = useState({});
+  const [staffSelected, setStaffSelected] = useState({});
   const { id } = router.query;
   console.log('value', value);
 
@@ -35,11 +37,11 @@ const WebsiteInfo = () => {
   }, [id]);
 
   return (
-    <div className="relative overflow-hidden bg-gradient-to-r from-slate-100 to-slate-400 mx-4">
+    <div className="relative overflow-hidden bg-gradient-to-r from-slate-100 to-slate-400">
       {!!id ? (
         <div>
-          <div className="grid grid-flow-row auto-rows-max py-20 gap-4 ">
-            <div className="col-span-4 my-12  flex flex-col md:flex-row sm:flex-col px-2">
+          <div className="grid grid-flow-row auto-rows-max gap-4  mt-16">
+            <div className="col-span-4 flex flex-col md:flex-row sm:flex-col px-2">
               <div className="row-span-3">
                 <div
                   className="col-start-1 row-start-1 h-7 text-base font-semibold leading-7 text-sky-500"
@@ -47,20 +49,25 @@ const WebsiteInfo = () => {
                 >
                   By Company Name
                 </div>
-                <h1 className=" text-4xl font-extrabold tracking-tight text-slate-900 sm:text-7xl ">
+                <h1 className=" mt-0 text-4xl font-extrabold tracking-tight text-slate-900 sm:text-7xl ">
                   Bookings to Organize and Manage your Business
                 </h1>
                 <p className=" text-slate-700">
-                  Beautifully designed, expertly crafted components and
-                  templates, built by the makers of Tailwind CSS. The perfect
-                  starting point for your next project.
+                  Organize your business with appointments to save time and make
+                  your business more manageable with a customizable webpage for
+                  your business.
                 </p>
-                <div className="col-span-6 my-48 w-10/12 overflow-hidden bg-white shadow sm:rounded-lg ">
-                  <Selection staff={staff} services={services} />
+                <div className="col-span-6 w-full lg:w-10/12 lg:mt-24 overflow-hidden bg-white shadow sm:rounded-lg ">
+                  <Selection
+                    staff={staff}
+                    services={services}
+                    serviceSelected={setServiceSelected}
+                    staffSelected={setStaffSelected}
+                  />
                 </div>
               </div>
 
-              <div className="col-span-2 mx-auto my-9">
+              <div className="col-span-2 mt-8 mx-auto  ">
                 <CalendarComponent />
               </div>
             </div>

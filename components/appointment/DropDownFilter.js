@@ -11,7 +11,7 @@ const DropDownFilter = ({ setFilter }) => {
   return (
     <Menu as="div" className="relative ">
       <div>
-        <Menu.Button className="rounded-md flex  flex-row dark:bg-slate-200 dark:text-slate-200  opacity-3 sm:py-1 sm:px-3  shadow-lg hover:shadow-blue-800/50 hover:scale-105 bg-blue-800 before:bg-inherit bg-gradient-to-r from-blue-900 to-blue-800   border-0 text-center transition-all touch-auto text-slate-100 cursor-pointer font-normal font-sans text-sm lg:px-3 lg:py-2">
+        <Menu.Button className="rounded-md flex  flex-row dark:bg-slate-200 dark:text-slate-200  opacity-3 sm:py-1 sm:px-3  shadow-lg hover:shadow-blue-800/50 hover:scale-105 bg-blue-800 before:bg-inherit bg-gradient-to-r from-blue-900 to-blue-800   border-0 text-center transition-all touch-auto text-slate-100 cursor-pointer font-normal font-sans text-sm lg:px-3 lg:py-1">
           Sort
           <Icon
             className="flex pl-2 lg:py-1 justify-center"

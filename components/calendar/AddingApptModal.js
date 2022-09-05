@@ -158,10 +158,9 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
 
   return (
     <div
-      aria-hidden="true"
       className={
         isOpen
-          ? 'absolute bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen  h-screen'
+          ? 'fixed bg-slate-900 bg-opacity-75 justify-center left-0 top-0 z-40 w-screen h-screen'
           : 'hidden '
       }
     >
@@ -193,7 +192,7 @@ const AddingApptModal = ({ isOpen, toggleModal, slotInfo, data }) => {
                 />
               </div> */}
 
-              <div className=" flex justify-center flex-row place-items-center gap-12">
+              <div className=" flex justify-center flex-col lg:flex-row place-items-center gap-12">
                 <Label className="py-2">
                   <DropDownService
                     setIsServiceSelected={setIsServiceSelected}
